@@ -76,12 +76,21 @@ the same clone. To keep them from stepping on each other:
   From the repo root:
 
   ```bash
-  git fetch origin && git worktree add ../wt-lecture-NN -b lecture-NN origin/main
+  git fetch origin && git worktree add ../wt-lecture-NN -b lecture-NN --no-track origin/main
   ```
 
   then do all work inside `../wt-lecture-NN/` (the source kit is still at
   `../workbooks_v2/lecture_NN/` relative to it; serve the worktree root for
-  the browser check). Never commit to `main` directly. After the PR merges,
+  the browser check). Never commit to `main` directly. When you push, name
+  the remote branch explicitly:
+
+  ```bash
+  git push -u origin lecture-NN:lecture-NN
+  ```
+
+  (`--no-track` and the explicit refspec matter: a branch created from
+  `origin/main` otherwise tracks `main`, and a plain `git push -u origin
+  lecture-NN` can land on `main`.) After the PR merges,
   `git worktree remove ../wt-lecture-NN`.
 - Touch only `workbooks/lecture-NN/` and the one card you add to the root
   `index.html`. Do not edit `runtime/`, `tools/`, another lecture, or the docs
