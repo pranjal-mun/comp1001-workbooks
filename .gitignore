@@ -5,3 +5,4 @@ lecture_04/
 # OS / editor noise
 .DS_Store
 .claude/
+__pycache__/

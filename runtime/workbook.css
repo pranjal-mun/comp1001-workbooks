@@ -223,6 +223,8 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-refers .wb-box { border: 1.5px solid var(--accent); border-radius: 4px; padding: 0.3rem 0.7rem; background: var(--panel); }
 .wb-refers .wb-arrow { color: var(--ink-quiet); }
 .wb-refers .wb-arrow::after { content: " refers to "; font-family: var(--font-body); font-style: italic; }
+.wb-refers .wb-arrow.wb-plain::after { content: none; }
+.wb-refers.wb-stages .wb-box { text-align: center; line-height: 1.5; }
 
 /* ------------------------------------------------------------ topbar */
 
