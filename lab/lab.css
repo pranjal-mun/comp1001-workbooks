@@ -1,0 +1,57 @@
+/* Full-screen PyLab layout on top of the shared workbook theme. */
+
+body.lab { display: flex; flex-direction: column; height: 100vh; margin: 0; overflow: hidden; font-family: var(--font-ui); }
+
+.lab-topbar, .lab-footer {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.4rem 0.9rem; background: var(--panel); border-bottom: 1px solid var(--rule-soft);
+}
+.lab-footer { border-bottom: 0; border-top: 1px solid var(--rule-soft); font-size: 0.8rem; color: var(--ink-quiet); }
+.lab-brand img { height: 30px; display: block; }
+.lab-title { font-weight: 700; font-size: 1.05rem; }
+.lab-mark { font-family: var(--font-mono); color: var(--accent); }
+.lab-status { font-size: 0.8rem; color: var(--ink-quiet); }
+.lab-status[data-state="error"] { color: var(--bad-ink); }
+.lab-status[data-state="running"] { color: var(--warn-ink); }
+
+.lab-workspace {
+  flex: 1; min-height: 0; display: grid;
+  grid-template-columns: 200px minmax(0, 1.4fr) minmax(0, 1fr);
+}
+.lab-files, .lab-editor-panel, .lab-console-panel { display: flex; flex-direction: column; min-height: 0; }
+.lab-files { background: var(--panel); border-right: 1px solid var(--rule-soft); }
+.lab-editor-panel { border-right: 1px solid var(--rule-soft); }
+.lab-panel-title {
+  display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.6rem 0.3rem 0.9rem;
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: var(--ink-quiet);
+  border-bottom: 1px solid var(--rule-soft); min-height: 2.2rem;
+}
+.lab-panel-title #active-name { text-transform: none; letter-spacing: 0; font-family: var(--font-mono); font-size: 0.9rem; color: var(--ink); }
+
+.lab-file-list { list-style: none; margin: 0; padding: 0.3rem 0; overflow-y: auto; flex: 1; }
+.lab-file-list li button {
+  display: block; width: 100%; text-align: left; background: none; border: 0; cursor: pointer;
+  font-family: var(--font-mono); font-size: 0.9rem; color: var(--ink); padding: 0.35rem 0.9rem;
+}
+.lab-file-list li button:hover { background: var(--panel-deep); }
+.lab-file-list li.is-active button { background: var(--paper); color: var(--accent); font-weight: 700; }
+.lab-file-actions, .lab-panel-foot { display: flex; gap: 0.2rem; padding: 0.3rem 0.5rem; border-top: 1px solid var(--rule-soft); }
+
+.lab-editor { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.lab-editor .CodeMirror { flex: 1; height: auto; min-height: 0; font-size: 1rem; }
+.lab-editor .CodeMirror-scroll { min-height: 0 !important; max-height: none !important; height: 100%; }
+.lab-editor .CodeMirror-gutters { background: var(--paper); border-right: 1px solid var(--rule-soft); }
+
+.lab-console { flex: 1; min-height: 0; max-height: none !important; overflow-y: auto; padding: 0.6rem 0.9rem; }
+.lab-hint { margin: 0; padding: 0.4rem 0.9rem; font-size: 0.8rem; color: var(--ink-quiet); border-top: 1px solid var(--rule-soft); }
+.lab-hint code { font-family: var(--font-mono); }
+.lab-console-panel.has-run .lab-hint { display: none; }
+
+@media (max-width: 860px) {
+  body.lab { height: auto; overflow: auto; }
+  .lab-workspace { grid-template-columns: 1fr; grid-auto-rows: auto; }
+  .lab-files { border-right: 0; border-bottom: 1px solid var(--rule-soft); }
+  .lab-file-list { max-height: 8rem; }
+  .lab-editor { min-height: 45vh; }
+  .lab-console { min-height: 30vh; }
+}
