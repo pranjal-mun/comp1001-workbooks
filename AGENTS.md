@@ -70,8 +70,19 @@ rather than inventing content.
 Several agent sessions may be converting different lectures in parallel from
 the same clone. To keep them from stepping on each other:
 
-- Work on a branch named `lecture-NN`, created from up-to-date `main`. Never
-  commit to `main` directly.
+- Work in your own git worktree on a branch named `lecture-NN`, created
+  from up-to-date `main`. A clone has one checked-out branch, so sessions
+  editing the same folder on different branches would overwrite each other.
+  From the repo root:
+
+  ```bash
+  git fetch origin && git worktree add ../wt-lecture-NN -b lecture-NN origin/main
+  ```
+
+  then do all work inside `../wt-lecture-NN/` (the source kit is still at
+  `../workbooks_v2/lecture_NN/` relative to it; serve the worktree root for
+  the browser check). Never commit to `main` directly. After the PR merges,
+  `git worktree remove ../wt-lecture-NN`.
 - Touch only `workbooks/lecture-NN/` and the one card you add to the root
   `index.html`. Do not edit `runtime/`, `tools/`, another lecture, or the docs
   on a lecture branch; if the runtime genuinely needs a change, stop and say
