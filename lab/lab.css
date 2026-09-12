@@ -3,7 +3,7 @@
 body.lab { display: flex; flex-direction: column; height: 100vh; margin: 0; overflow: hidden; font-family: var(--font-ui); }
 
 .lab-topbar, .lab-footer {
-  display: flex; align-items: center; gap: 0.6rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem;
   padding: 0.4rem 0.9rem; background: var(--panel); border-bottom: 1px solid var(--rule-soft);
 }
 .lab-footer { border-bottom: 0; border-top: 1px solid var(--rule-soft); font-size: 0.8rem; color: var(--ink-quiet); }
@@ -15,6 +15,7 @@ body.lab { display: flex; flex-direction: column; height: 100vh; margin: 0; over
 .lab-status[data-state="running"] { color: var(--warn-ink); }
 
 .lab-workspace {
+  max-width: none; width: 100%; margin: 0; padding: 0;
   flex: 1; min-height: 0; display: grid;
   grid-template-columns: 200px minmax(0, 1.4fr) minmax(0, 1fr);
 }

@@ -200,9 +200,7 @@ function updateControls() {
 }
 
 function projectFiles() {
-  const files = {};
-  for (const file of project.files) files[file.name] = file.content;
-  return files;
+  return project.files.map((file) => ({ name: file.name, content: file.content }));
 }
 
 async function runProject() {
@@ -231,7 +229,7 @@ async function runProject() {
       out.note("(program finished with no output)");
     }
   } catch (error) {
-    if (error instanceof StoppedError || error?.name === "AbortError") out.note("\n■ Stopped.");
+    if (error instanceof StoppedError || error?.name === "AbortError") out.note((out.isEmpty ? "" : "\n") + "■ Stopped.");
     else if (error instanceof TimeoutError) out.error(`\n${error.message}`);
     else out.error(`\n${error.message ?? error}`);
   } finally {
