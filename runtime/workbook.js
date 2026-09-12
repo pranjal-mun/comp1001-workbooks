@@ -28,6 +28,8 @@ export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", t
   buildTopBar({ title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
   buildContents(progress);
   runner.warmUp();
+  // Widgets grow as they initialise, so a #section link needs a second jump.
+  if (location.hash) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView(), 300);
 }
 
 // ------------------------------------------------------------- top bar
