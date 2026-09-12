@@ -92,6 +92,13 @@ progress bar. Examples do not.
 import menu) and a table of contents from every `main h2[id]`. Give each
 section heading an `id`; add `data-toc-title="…"` for a shorter TOC label.
 
+Presentation mode (`runtime/present.js`, key **F**) shows one topic at a
+time: every `h2` or `h3` that is a **direct child of `main`** (or the first
+child of a direct child, as in `.wb-outcomes`) starts a topic, and the
+elements up to the next heading belong to it. Keep headings at the top level
+of `main` — a heading buried inside a wrapper `div` will not get its own
+topic — and keep each topic short enough to present on one screen.
+
 Prose classes available in `runtime/workbook.css`:
 
 - `.wb-title-block` with `.wb-course`, `h1`, `.wb-subtitle`, `.wb-meta`, and an `<img>` for the logo (`../../runtime/img/mun-logo.svg`).
