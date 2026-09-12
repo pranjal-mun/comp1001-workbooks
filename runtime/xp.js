@@ -45,12 +45,19 @@ class XP {
     return this.balance >= amount;
   }
 
+  /** True if this exercise has already paid out (guards against earn → reset → earn). */
+  hasEarned(exerciseId, workbookId) {
+    return this.state.history.some((h) => h.delta > 0 && h.exercise === exerciseId && h.workbook === workbookId);
+  }
+
+  /** Award once per exercise; returns false if nothing was added. */
   earn(exerciseId, amount, workbookId) {
-    if (amount <= 0) return;
+    if (amount <= 0 || this.hasEarned(exerciseId, workbookId)) return false;
     this.state.balance += amount;
     this.state.history.push({ at: Date.now(), workbook: workbookId, exercise: exerciseId, delta: +amount });
     write(this.state);
     this.notify({ delta: +amount, exerciseId });
+    return true;
   }
 
   spend(exerciseId, amount, workbookId) {

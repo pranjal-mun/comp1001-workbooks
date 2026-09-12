@@ -68,7 +68,10 @@ export class Progress {
     }
   }
 
-  /** Award XP once for this exercise (or once per named part, e.g. a table cell). */
+  /**
+   * Award XP once for this exercise (or once per named part, e.g. a table
+   * cell). Returns the XP actually added: 0 if already earned or revealed.
+   */
   award(id, amount, part = null) {
     const record = this.get(id);
     if (record.revealed) return 0;
@@ -81,9 +84,14 @@ export class Progress {
       record.parts[part] = amount;
     }
     this.save();
-    xp.earn(part == null ? id : `${id}#${part}`, amount, this.workbookId);
+    const added = xp.earn(part == null ? id : `${id}#${part}`, amount, this.workbookId);
     this.notify();
-    return amount;
+    return added ? amount : 0;
+  }
+
+  /** True once every listed part has paid out. */
+  hasEarnedPart(id, part) {
+    return Boolean(this.state.exercises[id]?.parts?.[part]);
   }
 
   reveal(id, cost) {
@@ -96,8 +104,14 @@ export class Progress {
     return true;
   }
 
+  /** Clear saved work and pass state; what was earned or revealed stays. */
   resetExercise(id) {
-    delete this.state.exercises[id];
+    const record = this.state.exercises[id];
+    if (record) {
+      delete record.work;
+      delete record.passed;
+      delete record.compared;
+    }
     this.save();
     this.notify();
   }
