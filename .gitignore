@@ -1,7 +1,3 @@
-# Legacy folders — will be deleted once their contents are absorbed into the repo
-pylab/
-lecture_04/
-
 # OS / editor noise
 .DS_Store
 .claude/
