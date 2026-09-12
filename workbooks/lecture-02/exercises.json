@@ -1,0 +1,392 @@
+{
+  "id": "lecture-02",
+  "course": "COMP 1001: Introduction to Programming",
+  "title": "Lecture 2 Workbook",
+  "subtitle": "Problem Solving",
+  "exercises": {
+    "p1-questions": {
+      "type": "short",
+      "xp": 5,
+      "minChars": 120,
+      "rows": 7,
+      "answer": "UG9zc2libGUgcXVlc3Rpb25zIGFyZTogSGF2ZSB5b3UgYWdyZWVkIHRvIGVxdWFsIHBheW1lbnRzPyBXaGF0IGRlbGl2ZXJ5IGZlZSBhcHBsaWVzPyBXaGF0IGFtb3VudCBpcyB0YXhlZCwgYW5kIGF0IHdoYXQgcmF0ZT8gV2hhdCB0aXAgYW1vdW50IG9yIHRpcCBydWxlIGhhdmUgeW91IGFncmVlZCBvbj8gT3RoZXIgcmVsZXZhbnQgcXVlc3Rpb25zIGluY2x1ZGUgd2hldGhlciB0aGVyZSBhcmUgZGlzY291bnRzLCBob3cgdGF4IGlzIHJvdW5kZWQsIGFuZCB3aGF0IHRvIGRvIGlmIGVxdWFsIHBheW1lbnRzIGxlYXZlIGEgZnJhY3Rpb24gb2YgYSBjZW50LgoKVGhlIG5ldyBncm91cCBvciBzdG9yZSBtYXkgdXNlIGRpZmZlcmVudCBydWxlcy4gRm9yIGV4YW1wbGUsIHRheCBtaWdodCBhcHBseSB0byBhIGRpZmZlcmVudCBhbW91bnQsIG9yIHRoZSBmcmllbmRzIG1pZ2h0IG5vdCBhZ3JlZSB0byBpbmNyZWFzaW5nIHRoZSB0aXAuIE91ciBtZXRob2QgY2FuIHByb3ZpZGUgZmFtaWxpYXIgc21hbGxlciBqb2JzLCBidXQgaXRzIGFzc3VtcHRpb25zIG11c3QgYmUgY2hlY2tlZCBmaXJzdC4="
+    },
+    "p2a-method": {
+      "type": "short",
+      "xp": 5,
+      "minChars": 80,
+      "rows": 6,
+      "answer": "QWRkIGZvb2QgYW5kIGRlbGl2ZXJ5LiBDYWxjdWxhdGUgMTUlIHRheCBvbiB0aGF0IGFtb3VudCBhbmQgcm91bmQgdG8gdGhlIG5lYXJlc3QgY2VudCwgd2l0aCBhbiBleGFjdCBoYWxmLWNlbnQgcm91bmRlZCB1cHdhcmQuIEFkZCB0aGUgcm91bmRlZCB0YXggYW5kIGFncmVlZCB0aXAuIENvbnZlcnQgdGhlIHRvdGFsIHRvIGNlbnRzLiBJZiBpdCBkb2VzIG5vdCBkaXZpZGUgaW50byB3aG9sZSBjZW50cyBwZXIgcGVyc29uLCBpbmNyZWFzZSB0aGUgdGlwIGFuZCB0b3RhbCBvbmUgY2VudCBhdCBhIHRpbWUuIFN0b3AgYXQgdGhlIGZpcnN0IHRvdGFsIHRoYXQgZG9lcy4gRGl2aWRlIGFuZCByZXBvcnQgdGhlIGZpbmFsIHRpcCwgcmV2aXNlZCBiaWxsLCBhbmQgcGF5bWVudCBwZXIgcGVyc29uLg=="
+    },
+    "p2b-table": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "tax4": {
+          "accept": [
+            "9.00",
+            "CA$9.00",
+            "CA$ 9.00",
+            "$9.00",
+            "$ 9.00",
+            "9",
+            "CA$9",
+            "CA$ 9",
+            "$9",
+            "$ 9"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "9.00"
+        },
+        "orig4": {
+          "accept": [
+            "75.00",
+            "CA$75.00",
+            "CA$ 75.00",
+            "$75.00",
+            "$ 75.00",
+            "75",
+            "CA$75",
+            "CA$ 75",
+            "$75",
+            "$ 75"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "75.00"
+        },
+        "tip4": {
+          "accept": [
+            "6.00",
+            "CA$6.00",
+            "CA$ 6.00",
+            "$6.00",
+            "$ 6.00",
+            "6",
+            "CA$6",
+            "CA$ 6",
+            "$6",
+            "$ 6"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "6.00"
+        },
+        "bill4": {
+          "accept": [
+            "75.00",
+            "CA$75.00",
+            "CA$ 75.00",
+            "$75.00",
+            "$ 75.00",
+            "75",
+            "CA$75",
+            "CA$ 75",
+            "$75",
+            "$ 75"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "75.00"
+        },
+        "pay4": {
+          "accept": [
+            "18.75",
+            "CA$18.75",
+            "CA$ 18.75",
+            "$18.75",
+            "$ 18.75"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "18.75"
+        },
+        "tax7": {
+          "accept": [
+            "9.00",
+            "CA$9.00",
+            "CA$ 9.00",
+            "$9.00",
+            "$ 9.00",
+            "9",
+            "CA$9",
+            "CA$ 9",
+            "$9",
+            "$ 9"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "9.00"
+        },
+        "orig7": {
+          "accept": [
+            "75.00",
+            "CA$75.00",
+            "CA$ 75.00",
+            "$75.00",
+            "$ 75.00",
+            "75",
+            "CA$75",
+            "CA$ 75",
+            "$75",
+            "$ 75"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "75.00"
+        },
+        "tip7": {
+          "accept": [
+            "6.04",
+            "CA$6.04",
+            "CA$ 6.04",
+            "$6.04",
+            "$ 6.04"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "6.04"
+        },
+        "bill7": {
+          "accept": [
+            "75.04",
+            "CA$75.04",
+            "CA$ 75.04",
+            "$75.04",
+            "$ 75.04"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "75.04"
+        },
+        "pay7": {
+          "accept": [
+            "10.72",
+            "CA$10.72",
+            "CA$ 10.72",
+            "$10.72",
+            "$ 10.72"
+          ],
+          "placeholder": "CA$",
+          "width": "7rem",
+          "show": "10.72"
+        }
+      }
+    },
+    "p2c-verify": {
+      "type": "short",
+      "xp": 3,
+      "minChars": 40,
+      "rows": 4,
+      "answer": "Rm9yIDQgcGVvcGxlLCA3NTAwIGNlbnRzIGRpdmlkZXMgZXhhY3RseTogMTg3NSBjZW50cyBlYWNoLCBzbyB0aGUgdGlwIHN0YXlzIENBJDYuMDAsIHRoZSBiaWxsIHN0YXlzIENBJDc1LjAwLCBhbmQgZWFjaCBwZXJzb24gcGF5cyBDQSQxOC43NS4gQ2hlY2s6IDQgw5cgMTguNzUgPSA3NS4wMC4KCkZvciA3IHBlb3BsZSwgNzUwMCBjZW50cyBsZWF2ZXMgMyBjZW50cyBhZnRlciBnaXZpbmcgZWFjaCBwZXJzb24gYSAxMDcxLWNlbnQgc2hhcmUuIFRvdGFscyA3NTAxLCA3NTAyLCBhbmQgNzUwMyBzdGlsbCBkbyBub3QgZGl2aWRlIGludG8gd2hvbGUgY2VudHMgcGVyIHBlcnNvbi4gVGhlIG5leHQgdG90YWwsIDc1MDQgY2VudHMsIGdpdmVzIDc1MDQgw7cgNyA9IDEwNzIgY2VudHMgZWFjaC4gVGhlIHNtYWxsZXN0IGluY3JlYXNlIGlzIENBJDAuMDQuIFRoZSBmaW5hbCB0aXAgaXMgQ0EkNi4wNCwgdGhlIHJldmlzZWQgYmlsbCBpcyBDQSQ3NS4wNCwgYW5kIGVhY2ggcGVyc29uIHBheXMgQ0EkMTAuNzIuIENoZWNrOiA3IMOXIDEwLjcyID0gNzUuMDQu"
+    },
+    "p3a-count": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "per-row": {
+          "accept": [
+            "3",
+            "3 tiles",
+            "three"
+          ],
+          "width": "6rem",
+          "show": "3"
+        },
+        "rows": {
+          "accept": [
+            "2",
+            "2 rows",
+            "two"
+          ],
+          "width": "6rem",
+          "show": "2"
+        },
+        "total": {
+          "accept": [
+            "6",
+            "6 tiles",
+            "six"
+          ],
+          "width": "6rem",
+          "show": "6"
+        }
+      }
+    },
+    "p3a-floor": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "t1": {
+          "accept": [
+            "black",
+            "b",
+            "B"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "black"
+        },
+        "t2": {
+          "accept": [
+            "white",
+            "w",
+            "W"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "white"
+        },
+        "t3": {
+          "accept": [
+            "black",
+            "b",
+            "B"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "black"
+        },
+        "t4": {
+          "accept": [
+            "white",
+            "w",
+            "W"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "white"
+        },
+        "t5": {
+          "accept": [
+            "black",
+            "b",
+            "B"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "black"
+        },
+        "t6": {
+          "accept": [
+            "white",
+            "w",
+            "W"
+          ],
+          "placeholder": "colour",
+          "width": "5.5rem",
+          "show": "white"
+        }
+      }
+    },
+    "p3b-rule": {
+      "type": "short",
+      "xp": 5,
+      "minChars": 80,
+      "rows": 6,
+      "answer": "V2l0aCB0aHJlZSB0aWxlcyBwZXIgcm93LCB0aGUgZmlyc3Qgcm93IGVuZHMgd2l0aCBibGFjay4gU3dpdGNoaW5nIGNvbG91ciBmb3IgdGhlIG5leHQgcGxhY2VtZW50IHN0YXJ0cyByb3cgMiB3aXRoIHdoaXRlLCB3aGljaCBpcyBjb3JyZWN0IGhlcmUuCgpXaXRoIGZvdXIgdGlsZXMgcGVyIHJvdywgdGhlIGZpcnN0IHJvdyBlbmRzIHdpdGggd2hpdGUuIFN3aXRjaGluZyBhZ2FpbiB3b3VsZCBzdGFydCByb3cgMiB3aXRoIGJsYWNrLCBkaXJlY3RseSBiZWxvdyBhIGJsYWNrIHRpbGUsIHdoaWNoIGlzIHdyb25nLgoKVGhlIGNvcnJlY3RlZCBydWxlIGlzIHRvIHN0YXJ0IGEgbmV3IHJvdyB3aXRoIHRoZSBvcHBvc2l0ZSBjb2xvdXIgdG8gdGhlIGZpcnN0IHRpbGUgaW4gdGhlIHJvdyBhYm92ZSwgdGhlbiBhbHRlcm5hdGUgYWNyb3NzIHRoZSByb3cu"
+    },
+    "p3c-check": {
+      "type": "short",
+      "xp": 3,
+      "minChars": 40,
+      "rows": 4,
+      "answer": "Q2hlY2sgdGhhdCB0aGUgcmVxdWlyZWQgbnVtYmVyIG9mIHJvd3MgYW5kIHBvc2l0aW9ucyBhcmUgZmlsbGVkIHdpdGhvdXQgZ2FwcyBvciBvdmVybGFwcy4gQ2hlY2sgZXZlcnkgcGFpciBvZiB0aWxlcyBzaGFyaW5nIGEgaG9yaXpvbnRhbCBvciB2ZXJ0aWNhbCBzaWRlLiBFdmVyeSBzdWNoIHBhaXIgbXVzdCBoYXZlIG9wcG9zaXRlIGNvbG91cnMuIEEgY29ycmVjdCB0aWxlIGNvdW50IGFsb25lIGlzIG5vdCBlbm91Z2gu"
+    },
+    "p4a-method": {
+      "type": "short",
+      "xp": 5,
+      "minChars": 80,
+      "rows": 6,
+      "answer": "QmVnaW4gd2l0aCBubyBib3hlcyB1c2VkLiBXaGlsZSBib29rcyByZW1haW4sIHRha2UgYW4gZW1wdHkgYm94IGFuZCBwdXQgNiBib29rcyBpbnRvIGl0IGlmIGF0IGxlYXN0IDYgcmVtYWluOyBvdGhlcndpc2UgcHV0IGFsbCB0aGUgcmVtYWluaW5nIGJvb2tzIGludG8gaXQuIFJlY29yZCB0aGF0IGJveCdzIGJvb2sgY291bnQuIENvbnRpbnVlIHVudGlsIG5vIGJvb2tzIHJlbWFpbiwgdGhlbiByZXBvcnQgdGhlIG51bWJlciBvZiBib3hlcyBhbmQgdGhlaXIgY291bnRzLgoKSWYgdGhlcmUgYXJlIG5vIGJvb2tzIGF0IHRoZSBzdGFydCwgcmVwb3J0IHplcm8gYm94ZXMu"
+    },
+    "p4b-table": {
+      "type": "table",
+      "xp": 1,
+      "blanks": {
+        "boxes23": {
+          "accept": [
+            "4",
+            "four"
+          ],
+          "width": "5rem",
+          "show": "4"
+        },
+        "counts23": {
+          "accept": [
+            "6, 6, 6, 5",
+            "6,6,6,5",
+            "6 6 6 5",
+            "6 + 6 + 6 + 5",
+            "6+6+6+5",
+            "6/6/6/5",
+            "6 / 6 / 6 / 5"
+          ],
+          "placeholder": "books per box",
+          "width": "9rem",
+          "show": "6, 6, 6, 5"
+        },
+        "boxes24": {
+          "accept": [
+            "4",
+            "four"
+          ],
+          "width": "5rem",
+          "show": "4"
+        },
+        "counts24": {
+          "accept": [
+            "6, 6, 6, 6",
+            "6,6,6,6",
+            "6 6 6 6",
+            "6 + 6 + 6 + 6",
+            "6+6+6+6",
+            "6/6/6/6",
+            "6 / 6 / 6 / 6"
+          ],
+          "placeholder": "books per box",
+          "width": "9rem",
+          "show": "6, 6, 6, 6"
+        },
+        "boxes0": {
+          "accept": [
+            "0",
+            "zero",
+            "none"
+          ],
+          "width": "5rem",
+          "show": "0"
+        },
+        "counts0": {
+          "accept": [
+            "none",
+            "no boxes",
+            "nothing",
+            "0",
+            "-",
+            "—",
+            "n/a"
+          ],
+          "placeholder": "books per box",
+          "width": "9rem",
+          "show": "none"
+        }
+      }
+    },
+    "p4c-why": {
+      "type": "short",
+      "xp": 3,
+      "minChars": 40,
+      "rows": 4,
+      "answer": "VGhyZWUgYm94ZXMgaG9sZCBhdCBtb3N0IDMgw5cgNiA9IDE4IGJvb2tzLCBsZWF2aW5nIDUgdW5wYWNrZWQuIEJvdGggMjMgYW5kIDI0IGJvb2tzIG5lZWQgYXQgbGVhc3QgZm91ciBib3hlcywgYW5kIHRoZSBkZXNjcmliZWQgYXJyYW5nZW1lbnRzIHVzZSBleGFjdGx5IGZvdXIuIEFuIGVxdWFsLXNoYXJlIGNhbGN1bGF0aW9uIGFsb25lIGRvZXMgbm90IHNvbHZlIHRoaXMgdGFzazogYm94IGNhcGFjaXR5IG1hdHRlcnMsIGFuZCB0aGUgbGFzdCBib3ggY2FuIGJlIHBhcnRseSBmdWxsLg=="
+    },
+    "p5-reflect": {
+      "type": "short",
+      "xp": 5,
+      "minChars": 120,
+      "rows": 8,
+      "answer": "Rm9yIHBpenphLCB0aGUgaW5pdGlhbCBtZXRob2QgYWRkZWQgY2hhcmdlcyBhbmQgZGl2aWRlZCBlcXVhbGx5LiBBIENBJDEwMCBiaWxsIHNoYXJlZCBieSAzIHBlb3BsZSByZXF1aXJlZCBmcmFjdGlvbnMgb2YgYSBjZW50LiBUaGUgZ3JvdXAgYWdyZWVkIHRvIGEgbWluaW1hbCB0aXAgaW5jcmVhc2UsIHNvIHRoZSByZXZpc2VkIG1ldGhvZCBwcm9kdWNlcyBlcXVhbCBwYXltZW50cyB0aGF0IGNvdmVyIHRoZSByZXZpc2VkIGJpbGwuCgpGb3IgdGlsZXMsIHN0YXJ0aW5nIGV2ZXJ5IHJvdyB3aXRoIGJsYWNrIG1hZGUgZWFjaCByb3cgYWx0ZXJuYXRlIGJ1dCBwdXQgbWF0Y2hpbmcgY29sb3VycyBhYm92ZSBhbmQgYmVsb3cgb25lIGFub3RoZXIuIFRoZSByZXZpc2lvbiBjaG9vc2VzIGVhY2ggbmV3IHJvdydzIGZpcnN0IGNvbG91ciBmcm9tIHRoZSBmaXJzdCB0aWxlIGluIHRoZSByb3cgYWJvdmUuCgpPbmUgbGVzc29uIGlzIHRvIGNoZWNrIHRoZSB3aG9sZSByZXN1bHQgYWdhaW5zdCBhbGwgcmVxdWlyZW1lbnRzLiBGb3IgcGFja2luZywgY2hlY2sgdGhhdCBhbGwgYm9va3MgYXJlIHBhY2tlZCBhbmQgdGhhdCBubyBib3ggaG9sZHMgbW9yZSB0aGFuIDYuIEFsc28gY2hlY2sgd2hldGhlciBmZXdlciBib3hlcyBjb3VsZCBob2xkIGFsbCB0aGUgYm9va3MuIEFub3RoZXIgdXNlZnVsIGxlc3NvbiBpcyB0byB0ZXN0IGEgYm91bmRhcnkgY2FzZTogemVybyBib29rcyBzaG91bGQgZ2l2ZSB6ZXJvIGJveGVzLCBub3Qgb25lIGVtcHR5IGJveC4="
+    }
+  }
+}
