@@ -13,7 +13,7 @@ The whole site is static files.
 ## What the student sees
 
 One long page per lecture, laid out like the PDF (same section order, same
-prose, same tables, same Solarized-light look with a dark toggle). The
+prose, same tables) in the university's brand look, with a dark toggle. The
 difference is that the "answer lines" become live widgets:
 
 | In the PDF | On the web |
@@ -158,8 +158,8 @@ pylab_workbooks/
 │   ├── progress.js         ← localStorage persistence, progress bar, export/import
 │   ├── xp.js               ← XP balance, earn/spend rules, reveal gating, toasts
 │   ├── editor.js           ← CodeMirror wrapper (compact/expandable), CDN-with-local-fallback loader from pylab/bootstrap.js
-│   ├── workbook.css        ← Solarized light/dark theme, exact colours from workbook_style.sty
-│   ├── fonts/              ← Latin Modern web fonts (self-hosted)
+│   ├── workbook.css        ← MUN brand theme (light/dark), tokens from BrandStandards_March_2026
+│   ├── fonts/              ← Figtree, EB Garamond, JetBrains Mono (self-hosted, OFL)
 │   └── img/mun-logo.svg    ← converted from MUN_Logo_CMYK.pdf
 ├── lab/                    ← the full-screen PyLab editor, kept as a page of the site ("Open in PyLab" target)
 ├── tools/                  ← authoring helpers: check_workbook.py (verifies every spec by running it), answers.py (base64 codec)
@@ -193,18 +193,25 @@ Key decisions:
   works at `https://<user>.github.io/<repo>/`, on `localhost`, and from a
   subfolder of a course server alike. A `.nojekyll` file keeps Pages from
   ignoring `vendor/` internals.
-- **Theme: the course's Solarized Light workbook theme**, exact colours from
-  `workbook_style.sty`: page `#FDF6E3`, code panel `#EEE8D5`, headings PMS 202
-  `#862633`, body `#231F20`, quiet grey `#63666A`, rules `#97999B`, keywords
-  `#5B4EA8`, strings `#1D6F66`, comments `#556264`, numbers `#8A3E9E`, answers
-  PMS 2736 `#1E22AA`. Semantic colours keep their meaning: green `#78BE20`
-  (ink `#4F7D15`) = correct, orange `#FE5000` (ink `#CB4000`) = careful, red
-  `#E4002B` (ink `#D2002B`) = wrong — never used for decoration. The dark
-  toggle uses Solarized Dark's base colours (`#002B36` / `#073642`) with the
-  same brand accents lightened for contrast. Body text in Latin Modern (the
-  PDF's `lmodern`) via self-hosted web fonts, monospace for code. The MUN
-  logo is converted from `MUN_Logo_CMYK.pdf` to SVG and placed in the page
-  header exactly as on the PDF's title block.
+- **Theme: the MUN brand standards (March 2026)**, translated into CSS
+  tokens in `runtime/workbook.css`. Palette: white paper, brand black
+  `#231F20` for text, Cool Grey 10 `#63666A` for quiet text, Cool Grey 7
+  `#97999B` for rules, and claret PMS 202 `#862633` used sparingly as the
+  single accent (course label, the thin rule above each section heading,
+  primary buttons, keywords). Semantic colours come from the secondary
+  palette and keep their meaning: teal PMS 3275 `#00B398` = correct /
+  progress, amber PMS 1235 `#FFB81C` = careful / running, red PMS 185
+  `#E4002B` = wrong — never used for decoration, and never confused with the
+  claret accent. Syntax highlighting adds PMS 2736 blue for builtins (the
+  brand allows extra colours for infographics). The dark toggle keeps the
+  same relationships on a near-black warm ground (`#1A1718` / `#231F20`),
+  with the accents lightened for contrast and the logo reversed out in white
+  as the brand permits. Type follows the brand's Avenir / Adobe Garamond
+  pairing: headings and UI in Avenir Next when installed, else the vendored
+  Figtree; body copy in Adobe Garamond Pro when installed, else the vendored
+  EB Garamond; code in JetBrains Mono with ligatures off so beginners see
+  `!=` and `>=` as typed. The MUN logo is converted from `MUN_Logo_CMYK.pdf`
+  to SVG and placed in the page header exactly as on the PDF's title block.
 
 ## The authoring loop (how future workbooks get made)
 
@@ -233,7 +240,7 @@ needs from the source — future lectures written the same way will convert clea
 
 - Engine: runner with **interactive `input()`** (replay-based), grader
   (stdout + cases + rewrite + check script), the four components, progress
-  persistence, **XP economy**, Solarized theme + logo.
+  persistence, **XP economy**, brand theme + logo.
 - Lecture 4 page with all seven checkpoints, Final Review, Additional Practice
   A–D, Putting It All Together, Coding Practice A–D — every one interactive.
 - Landing page listing Lecture 4.

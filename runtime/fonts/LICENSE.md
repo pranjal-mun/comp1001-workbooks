@@ -1,6 +1,11 @@
-# Latin Modern fonts
+# Web fonts
 
-The `lm*.otf` files are the Latin Modern family by B. Jackowski and J. M. Nowacki
-(GUST e-foundry), copied from TeX Live. They are distributed under the
-GUST Font License (GFL), which permits redistribution and web embedding:
-https://www.gust.org.pl/projects/e-foundry/latin-modern
+All three families are variable fonts, subset to Latin and Latin Extended,
+downloaded from Google Fonts. Each is licensed under the SIL Open Font
+License 1.1, which permits redistribution and web embedding.
+
+| Files | Family | Role | Source |
+|---|---|---|---|
+| `Figtree-*.woff2` | Figtree (Erik Kennedy) | Sans-serif: headings and interface. Stand-in for Avenir, the Memorial University brand typeface, which is used when installed. | https://fonts.google.com/specimen/Figtree |
+| `EBGaramond-*.woff2` | EB Garamond (Georg Duffner, Octavio Pardo) | Serif: body copy. Stand-in for Adobe Garamond, the brand's body typeface. | https://fonts.google.com/specimen/EB+Garamond |
+| `JetBrainsMono-*.woff2` | JetBrains Mono (JetBrains) | Monospace: code editors, console, inline code. | https://fonts.google.com/specimen/JetBrains+Mono |
