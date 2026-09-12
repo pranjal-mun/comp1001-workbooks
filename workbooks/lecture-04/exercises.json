@@ -304,7 +304,7 @@
         }
       ],
       "check": "assert \"Room_capacity\" not in __source__, \"The name Room_capacity is still in the program. Make both spellings match the assignment.\"\nassert \"room_capacity\" in __source__, \"Keep the name room_capacity from the original assignment.\"",
-      "answer": "cm9vbV9jYXBhY2l0eSA9IDM1CnByaW50KHJvb21fY2FwYWNpdHkpCg=="
+      "answer": "cm9vbV9jYXBhY2l0eSA9IDM1CnByaW50KHJvb21fY2FwYWNpdHkp"
     },
     "cp7-why": {
       "type": "short",
@@ -537,7 +537,7 @@
           "check": "user = {k: v for k, v in globals().items() if not k.startswith(\"__\")}\ntexts = {k: v for k, v in user.items() if isinstance(v, str)}\nwhole = {k: v for k, v in user.items() if type(v) is int}\nconstants = {k: v for k, v in whole.items() if k == k.upper() and any(ch.isalpha() for ch in k)}\ncounts = {k: v for k, v in whole.items() if k not in constants}\nassert texts, \"Store the course code as text (a str value in quotes) in a variable.\"\nassert counts, \"Store the number of students as a whole number (an int, no quotes) in a variable.\"\nassert constants, \"Store the maximum class size using the constant convention: an ALL_CAPS name such as MAX_CLASS_SIZE.\"\nlines = __stdout__.strip(\"\\n\").split(\"\\n\")\nassert len(lines) == 1, \"Display the three values on one line, with one print() call.\"\nexpected = {f\"{c} {n} {m}\" for c in texts.values() for n in counts.values() for m in constants.values()}\nassert lines[0] in expected, \"Print the course code, the number of students, and the maximum in that order, separated by spaces (one print with three values).\"\n"
         }
       ],
-      "answer": "Y291cnNlX2NvZGUgPSAnQ09NUCAxMDAxJwpzdHVkZW50X2NvdW50ID0gMjgKTUFYX0NMQVNTX1NJWkUgPSA0MApwcmludChjb3Vyc2VfY29kZSwgc3R1ZGVudF9jb3VudCwgTUFYX0NMQVNTX1NJWkUpCg==",
+      "answer": "Y291cnNlX2NvZGUgPSAnQ09NUCAxMDAxJwpzdHVkZW50X2NvdW50ID0gMjgKTUFYX0NMQVNTX1NJWkUgPSA0MApwcmludChjb3Vyc2VfY29kZSwgc3R1ZGVudF9jb3VudCwgTUFYX0NMQVNTX1NJWkUp",
       "answerNote": "Output: COMP 1001 28 40. Other values are fine if the types, names, and display order meet the question."
     },
     "ex-w16": {
@@ -615,7 +615,7 @@
           "expected": "1 2"
         }
       ],
-      "answer": "Zmlyc3QgPSAzCnNlY29uZCA9IGZpcnN0ICsgMgpmaXJzdCA9IGZpcnN0ICsgMQpwcmludChmaXJzdCwgc2Vjb25kKQo="
+      "answer": "Zmlyc3QgPSAzCnNlY29uZCA9IGZpcnN0ICsgMgpmaXJzdCA9IGZpcnN0ICsgMQpwcmludChmaXJzdCwgc2Vjb25kKQ=="
     },
     "ca-trace": {
       "type": "table",
@@ -685,7 +685,7 @@
           "expected": "1 3"
         }
       ],
-      "answer": "Zmlyc3QgPSAzCmZpcnN0ID0gZmlyc3QgKyAxCnNlY29uZCA9IGZpcnN0ICsgMgpwcmludChmaXJzdCwgc2Vjb25kKQo="
+      "answer": "Zmlyc3QgPSAzCmZpcnN0ID0gZmlyc3QgKyAxCnNlY29uZCA9IGZpcnN0ICsgMgpwcmludChmaXJzdCwgc2Vjb25kKQ=="
     },
     "cb-why": {
       "type": "short",
@@ -742,7 +742,7 @@
           "expected": "<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'str'>\n<class 'str'>"
         }
       ],
-      "answer": "cHJpbnQodHlwZSg3KSkKcHJpbnQodHlwZSg3LjApKQpwcmludCh0eXBlKCc3JykpCnByaW50KHR5cGUoIjciKSkKcHJpbnQodHlwZSgiNy4wIikpCg=="
+      "answer": "cHJpbnQodHlwZSg3KSkKcHJpbnQodHlwZSg3LjApKQpwcmludCh0eXBlKCc3JykpCnByaW50KHR5cGUoIjciKSkKcHJpbnQodHlwZSgiNy4wIikp"
     },
     "ex-w18": {
       "type": "example",
@@ -771,7 +771,7 @@
           "expected": "Lab A 0 40"
         }
       ],
-      "answer": "IyBLZWVwIHRoZSByb29tIGxpbWl0IGluIG9uZSBwbGFjZSBmb3IgZnV0dXJlIHVwZGF0ZXMuCk1BWF9TRUFUUyA9IDQwCmJvb2tlZCA9IDE4CnJvb21fbGFiZWwgPSAnTGFiIEEnCnByaW50KHJvb21fbGFiZWwsIGJvb2tlZCwgTUFYX1NFQVRTKQo=",
+      "answer": "IyBLZWVwIHRoZSByb29tIGxpbWl0IGluIG9uZSBwbGFjZSBmb3IgZnV0dXJlIHVwZGF0ZXMuCk1BWF9TRUFUUyA9IDQwCmJvb2tlZCA9IDE4CnJvb21fbGFiZWwgPSAnTGFiIEEnCnByaW50KHJvb21fbGFiZWwsIGJvb2tlZCwgTUFYX1NFQVRTKQ==",
       "answerNote": "Other meaningful names and a useful reason-based comment are acceptable."
     },
     "cd-why": {
