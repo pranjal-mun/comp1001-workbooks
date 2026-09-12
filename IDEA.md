@@ -21,7 +21,7 @@ difference is that the "answer lines" become live widgets:
 | Teaching example code + "Output:" box | Read-only code block with a **▶ Run** button. Output appears underneath so students can see that the printed output is real, and can **edit a copy** to experiment. |
 | Coding task with starter shell + blank lines + expected-output table | **Exercise editor**: a compact CodeMirror box (starts ~6 lines tall, grows with content, has a "maximize" toggle), a **Run** button, an output pane, and a **Check** result: ✅ *Correct* or ❌ *Expected `4 5`, got `4 6`* with a diff of the expected vs. actual lines. |
 | Trace table / classify table (fill-in cells: values, types, valid/invalid) | Same table with **text inputs** in the blank cells and a **Check** button. Each cell is marked right/wrong. Answers are normalized (whitespace, case, `int` vs `<class 'int'>`), and cells can accept several correct spellings. |
-| Short-answer "Why…?" / "Explain…" questions | A textarea for the student's own words plus a **Show model answer** button (costs XP, see below). These can't be auto-graded; the student self-checks and can mark it *Got it* to bank the XP. |
+| Short-answer "Why…?" / "Explain…" questions | A textarea for the student's own words. Once they have written a real attempt, **Compare with model answer** shows the model answer for free and the student self-checks: *I got it* banks the XP, *Not quite* leaves it open. **Skip and show answer** (before attempting) costs XP instead. |
 | Learning outcomes, headings, diagrams | Plain HTML/CSS; small diagrams (the "refers to" boxes) reproduced with inline SVG or simple CSS. |
 
 Extras:
@@ -121,8 +121,9 @@ length and difficulty:
 Rules:
 
 - A correct check awards the full weight **once**; re-running a passed exercise
-  never re-awards. Table exercises award per cell (weight ÷ cells, rounded to
-  whole XP, so a 5-cell "1 XP" table is really 5 × 1 XP), so partial progress still counts.
+  never re-awards, and resetting an exercise does not let it be re-earned
+  (the XP history remembers). Table exercises award per blank (`xp` in a
+  table spec is the weight of one blank), so partial progress still counts.
 - **Show answer** costs the same weight it would have paid, is only enabled
   when the balance covers it, and permanently marks that exercise as
   *revealed* (no XP can be earned from it afterwards, but it still counts as
@@ -161,11 +162,13 @@ pylab_workbooks/
 │   ├── fonts/              ← Latin Modern web fonts (self-hosted)
 │   └── img/mun-logo.svg    ← converted from MUN_Logo_CMYK.pdf
 ├── lab/                    ← the full-screen PyLab editor, kept as a page of the site ("Open in PyLab" target)
+├── tools/                  ← authoring helpers: check_workbook.py (verifies every spec by running it), answers.py (base64 codec)
 ├── vendor/                 ← pinned Pyodide + CodeMirror copies, offline fallback (from pylab/vendor)
 ├── workbooks/
 │   └── lecture-04/
 │       ├── index.html      ← the workbook page: prose + tables + component tags
-│       └── exercises.json  ← specs: starter code, expected output, cases, check scripts, answer keys, model answers
+│       ├── exercises.json  ← specs: starter code, expected output, cases, check scripts, answer keys, model answers
+│       └── build_exercises.py ← generates exercises.json; expected outputs come from running the code
 └── source_material/
     └── lecture-04/         ← the PDF and/or .tex dumped here; the agent reads these to generate workbooks/lecture-04/
 ```
@@ -178,8 +181,9 @@ Key decisions:
 - **One Pyodide worker per page**, shared by every widget, with a queue so only
   one run happens at a time (Pyodide is single-threaded anyway). Each run gets a
   fresh namespace and a cleared project directory, exactly like PyLab's
-  `runProject`. First load of Pyodide (~10 MB, cached by the browser afterwards)
-  happens lazily on the first Run click, with a "Loading Python…" status.
+  `runProject`. Pyodide (~10 MB, cached by the browser afterwards) starts
+  loading as soon as the page opens, with a "Loading Python…" status in the
+  top bar; Run buttons enable when it is ready.
 - **Content and engine are separate.** The engine never changes per lecture; a
   new lecture is a new folder under `workbooks/` plus its source material.
 - **No framework, no bundler.** Plain ES modules, like PyLab. Anyone can open the
