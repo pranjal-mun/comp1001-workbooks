@@ -6,12 +6,12 @@
   "exercises": {
     "ex-w01": {
       "type": "example",
-      "code": "price = 24.95\nprint(price)\n",
+      "code": "price = 24.95\nprint(price)",
       "output": "24.95"
     },
     "ex-w02": {
       "type": "example",
-      "code": "course = 'COMP 1001'\nroom = 2006\n"
+      "code": "course = 'COMP 1001'\nroom = 2006"
     },
     "cp1": {
       "type": "table",
@@ -48,17 +48,17 @@
     },
     "ex-w03": {
       "type": "example",
-      "code": "bottles = 6\nprint(bottles)\nbottles = 8\nprint(bottles)\n",
+      "code": "bottles = 6\nprint(bottles)\nbottles = 8\nprint(bottles)",
       "output": "6\n8"
     },
     "ex-w04": {
       "type": "example",
-      "code": "count = 4\ncount = count + 1\nprint(count)\n",
+      "code": "count = 4\ncount = count + 1\nprint(count)",
       "output": "5"
     },
     "ex-w05": {
       "type": "example",
-      "code": "score = 10\nscore = 12\nscore = score + 1\n"
+      "code": "score = 10\nscore = 12\nscore = score + 1"
     },
     "cp2-trace": {
       "type": "table",
@@ -88,7 +88,7 @@
     },
     "ex-w06": {
       "type": "example",
-      "code": "print(type(42))\nprint(type(3.5))\nprint(type('42'))\nprint(type(True))\n",
+      "code": "print(type(42))\nprint(type(3.5))\nprint(type('42'))\nprint(type(True))",
       "output": "<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>"
     },
     "cp3-types": {
@@ -141,12 +141,12 @@
     },
     "ex-w07": {
       "type": "example",
-      "code": "value = 10\nprint(value, type(value))\nvalue = 'ten'\nprint(value, type(value))\n",
+      "code": "value = 10\nprint(value, type(value))\nvalue = 'ten'\nprint(value, type(value))",
       "output": "10 <class 'int'>\nten <class 'str'>"
     },
     "ex-w08": {
       "type": "example",
-      "code": "status = 'ready'\nstatus = True\nstatus = 1\n"
+      "code": "status = 'ready'\nstatus = True\nstatus = 1"
     },
     "cp4-trace": {
       "type": "table",
@@ -231,11 +231,11 @@
     },
     "ex-w09": {
       "type": "example",
-      "code": "TAX_RATE = 0.15\nMAX_ATTEMPTS = 3\n"
+      "code": "TAX_RATE = 0.15\nMAX_ATTEMPTS = 3"
     },
     "ex-w10": {
       "type": "example",
-      "code": "# Use one named value so the rate is easy to update later.\nTAX_RATE = 0.15\n\nprint('Current tax rate:', TAX_RATE)\n",
+      "code": "# Use one named value so the rate is easy to update later.\nTAX_RATE = 0.15\n\nprint('Current tax rate:', TAX_RATE)",
       "output": "Current tax rate: 0.15"
     },
     "cp6-names": {
@@ -286,17 +286,17 @@
     },
     "ex-w11": {
       "type": "example",
-      "code": "print(total_cost)\n"
+      "code": "print(total_cost)"
     },
     "ex-w12": {
       "type": "example",
-      "code": "total_cost = 25.0\nprint(totl_cost)\n"
+      "code": "total_cost = 25.0\nprint(totl_cost)"
     },
     "cp7-fix": {
       "type": "code",
       "xp": 2,
       "minLines": 3,
-      "starter": "room_capacity = 35\nprint(Room_capacity)\n",
+      "starter": "room_capacity = 35\nprint(Room_capacity)",
       "cases": [
         {
           "name": "Program output",
@@ -313,7 +313,7 @@
     },
     "ex-w14": {
       "type": "example",
-      "code": "MAX_SEATS = 30\navailable = 24\nlabel = 'Room A'\n\nprint(label, available)\navailable = 22\nprint(label, available)\n"
+      "code": "MAX_SEATS = 30\navailable = 24\nlabel = 'Room A'\n\nprint(label, available)\navailable = 22\nprint(label, available)"
     },
     "fr1": {
       "type": "short",
@@ -480,7 +480,7 @@
     },
     "ex-w15": {
       "type": "example",
-      "code": "item_count = 5\nitem_count = 8\nitem_count = 'eight'\n"
+      "code": "item_count = 5\nitem_count = 8\nitem_count = 'eight'"
     },
     "pc-trace": {
       "type": "table",
@@ -530,7 +530,7 @@
       "type": "code",
       "xp": 10,
       "minLines": 6,
-      "starter": "# Course information\n",
+      "starter": "# Course information",
       "cases": [
         {
           "name": "Your values, in the requested order",
@@ -542,11 +542,11 @@
     },
     "ex-w16": {
       "type": "example",
-      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 24\n"
+      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 24"
     },
     "ex-w17": {
       "type": "example",
-      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 24\n\nprint('Capacity:', MAX_SEATS)\nprint(room_label, booked)\nbooked = booked + 1\nprint(room_label, booked)\n",
+      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 24\n\nprint('Capacity:', MAX_SEATS)\nprint(room_label, booked)\nbooked = booked + 1\nprint(room_label, booked)",
       "output": "Capacity: 30\nRoom A 24\nRoom A 25"
     },
     "room-check": {
@@ -587,7 +587,7 @@
     },
     "ex-w17-zero": {
       "type": "example",
-      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 0\n\nprint('Capacity:', MAX_SEATS)\nprint(room_label, booked)\nbooked = booked + 1\nprint(room_label, booked)\n"
+      "code": "# Keep the room limit in one place for future updates.\nMAX_SEATS = 30\nroom_label = 'Room A'\nbooked = 0\n\nprint('Capacity:', MAX_SEATS)\nprint(room_label, booked)\nbooked = booked + 1\nprint(room_label, booked)"
     },
     "room-why": {
       "type": "short",
@@ -598,7 +598,7 @@
       "type": "code",
       "xp": 5,
       "minLines": 5,
-      "starter": "first = 3\n# Add the remaining statements.\n",
+      "starter": "first = 3\n# Add the remaining statements.",
       "cases": [
         {
           "name": "first = 3",
@@ -668,7 +668,7 @@
       "type": "code",
       "xp": 5,
       "minLines": 5,
-      "starter": "first = 3\n# Add the remaining statements.\n",
+      "starter": "first = 3\n# Add the remaining statements.",
       "cases": [
         {
           "name": "first = 3",
@@ -735,7 +735,7 @@
       "type": "code",
       "xp": 5,
       "minLines": 6,
-      "starter": "# Display the five types in the requested order.\n",
+      "starter": "# Display the five types in the requested order.",
       "cases": [
         {
           "name": "Program output",
@@ -746,14 +746,14 @@
     },
     "ex-w18": {
       "type": "example",
-      "code": "m = 40\nn = 18\nt = 'Lab A'\nprint(t, n, m)\n",
+      "code": "m = 40\nn = 18\nt = 'Lab A'\nprint(t, n, m)",
       "output": "Lab A 18 40"
     },
     "cd": {
       "type": "code",
       "xp": 10,
       "minLines": 7,
-      "starter": "# Write your revised program below.\n",
+      "starter": "# Write your revised program below.",
       "check": "import re\nuser = {k: v for k, v in globals().items() if not k.startswith(\"__\")}\nfor short in (\"m\", \"n\", \"t\"):\n    assert short not in user, f\"The name {short} is still used. Replace every single-letter name with a meaningful one.\"\nconstants = {k: v for k, v in user.items() if type(v) is int and k == k.upper() and any(ch.isalpha() for ch in k)}\nassert constants, \"Store the fixed room capacity under an ALL_CAPS name (the constant convention), e.g. MAX_SEATS.\"\nassert any(v == 40 for v in constants.values()) or any(v == 40 for v in user.values()), \"Keep the capacity value 40.\"\ncounts = {k: v for k, v in user.items() if type(v) is int and k not in constants}\nassert counts, \"Store the booking count under a lowercase descriptive name (it is a value that can change, not a constant).\"\nassert any(isinstance(v, str) for v in user.values()), \"Store the room label as text under a descriptive name.\"\ncode_lines = [line for line in __source__.split(\"\\n\") if line.strip()]\nassert any(re.match(r\"\\s*#\", line) or \"#\" in line.split(\"'\")[0].split('\"')[0] for line in code_lines), \"Add one useful comment (a line or note starting with #) that explains a choice.\"\nfor k in user:\n    assert len(k) > 1, f\"The name {k} is too short to be meaningful.\"\n",
       "cases": [
         {
