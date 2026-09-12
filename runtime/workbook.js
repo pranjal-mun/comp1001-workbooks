@@ -1,6 +1,7 @@
 // Page bootstrap for a workbook: loads exercises.json, sets up progress and
 // the widgets, and builds the sticky top bar (XP, progress, theme, backup)
-// and the table of contents from the page's headings.
+// and the table of contents from the page's headings, and enables the
+// classroom presentation mode (see present.js).
 //
 // A workbook page calls:
 //   import { initWorkbook } from "../../runtime/workbook.js";
@@ -11,6 +12,7 @@ import { xp } from "./xp.js";
 import { runner } from "./runner.js";
 import { defineComponents, toast } from "./components.js";
 import { initTheme } from "./theme.js";
+import { initPresentation } from "./present.js";
 
 const LOGO_URL = new URL("./img/mun-logo.svg", import.meta.url).href;
 const HOME_URL = new URL("../index.html", import.meta.url).href;
@@ -27,6 +29,7 @@ export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", t
   defineComponents({ workbookId: id, specs, progress });
   buildTopBar({ title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
   buildContents(progress);
+  initPresentation();
   runner.warmUp();
   // Widgets grow as they initialise, so a #section link needs a second jump.
   if (location.hash) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView(), 300);
@@ -81,6 +84,7 @@ function buildTopBar({ title, subtitle, progress, exerciseIds }) {
       el("button", { type: "button", class: "wb-menu-item", onclick: () => exportProgress(progress) }, "Export progress…"),
       el("button", { type: "button", class: "wb-menu-item", onclick: () => importProgress(progress) }, "Import progress…"),
       el("button", { type: "button", class: "wb-menu-item", onclick: () => window.open(new URL("../lab/index.html", import.meta.url).href, "_blank") }, "Open PyLab (full screen)"),
+      el("button", { type: "button", class: "wb-menu-item", onclick: () => document.dispatchEvent(new CustomEvent("wb:present")) }, "Present in class", el("kbd", {}, "F")),
       el("hr"),
       el("button", { type: "button", class: "wb-menu-item is-danger", onclick: () => resetWorkbook(progress) }, "Reset this workbook…"),
     ));

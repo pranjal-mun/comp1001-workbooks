@@ -647,7 +647,53 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-card strong { display: block; font-family: var(--font-sans); color: var(--accent); font-size: 1.1rem; margin-bottom: 0.25rem; }
 .wb-card span { color: var(--ink-quiet); font-size: 1.05rem; }
 
+/* Presentation mode (present.js). The page is shown one topic at a time,
+   scaled up for a projector, with the chrome reduced to a hamburger menu and
+   a small navigator. Everything else keeps its normal styling. */
+.wb-present-ui { display: none; }
+body.wb-presenting { display: block; font-size: calc(1.2rem * var(--wb-present-scale, 1.3)); }
+/* Widgets re-measure themselves after a topic change; stop the browser from "helpfully" shifting the scroll position while they do. */
+body { overflow-anchor: none; }
+body.wb-presenting > .wb-topbar, body.wb-presenting > .wb-toc { display: none; }
+body.wb-presenting > main { max-width: calc(52rem * var(--wb-present-scale, 1.3)); padding: 3.5rem 3rem 8rem; }
+body.wb-presenting > main > :not(.wb-slide-on), body.wb-presenting > main > hr { display: none !important; }
+body.wb-presenting > main > h2.wb-slide-on, body.wb-presenting > main > h3.wb-slide-on { margin-top: 0; }
+body.wb-presenting > main > h3.wb-slide-on { font-size: 1.6rem; padding-top: 1rem; }
+body.wb-presenting > main > h3.wb-slide-on::before { content: ""; display: block; width: 2.5rem; height: 3px; background: var(--accent-fill); margin-bottom: 0.9rem; }
+body.wb-presenting .wb-present-ui { display: contents; }
+body.wb-presenting .wb-editor .CodeMirror, body.wb-presenting .wb-console { font-size: 0.85em; }
+
+.wb-present-menu { position: fixed; top: 0.9rem; right: 1rem; z-index: 150; font-family: var(--font-sans); font-size: 0.95rem; }
+.wb-present-menu > summary { font-size: 1.25rem; color: var(--ink-quiet); background: var(--paper); border-color: var(--rule-soft); box-shadow: var(--shadow); }
+.wb-present-menu > summary:hover { color: var(--ink); background: var(--panel); }
+.wb-present-menu .wb-menu-items { width: 20rem; max-height: calc(100vh - 5rem); overflow-y: auto; font-size: 0.95rem; }
+.wb-present-menu-title { color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; font-weight: 700; padding: 0.4rem 0.7rem 0.2rem; }
+.wb-present-item { display: flex; gap: 0.6rem; align-items: baseline; padding: 0.3rem 0.7rem; font-size: 0.9rem; }
+.wb-present-item.is-level-3 { padding-left: 1.6rem; color: var(--ink-quiet); }
+.wb-present-item.is-current { background: var(--accent-wash); color: var(--accent); font-weight: 600; }
+.wb-present-item-n { flex: none; min-width: 1.6em; text-align: right; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 0.78rem; }
+.wb-present-row { display: flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.7rem; color: var(--ink); }
+.wb-present-scale { min-width: 3em; text-align: center; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
+.wb-present-menu kbd { float: right; margin-left: 1rem; font-size: 0.75em; color: var(--ink-quiet); background: var(--panel); border: 1px solid var(--rule-soft); border-radius: 4px; padding: 0.05em 0.4em; }
+.wb-present-hint { color: var(--ink-quiet); font-size: 0.78rem; padding: 0.4rem 0.7rem 0.2rem; }
+
+.wb-present-nav {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 150;
+  display: flex; align-items: center; gap: 0.15rem;
+  padding: 0.25rem 0.35rem 0.25rem 0.9rem;
+  font-family: var(--font-sans); font-size: 0.85rem;
+  background: var(--paper); border: 1px solid var(--rule-soft); border-radius: 999px; box-shadow: var(--shadow);
+  opacity: 0.55; transition: opacity 0.2s;
+}
+.wb-present-nav:hover, .wb-present-nav:focus-within { opacity: 1; }
+.wb-present-nav .wb-btn-icon { font-size: 1.3rem; line-height: 1; padding: 0.15rem 0.5rem; border-radius: 999px; }
+.wb-present-crumb { color: var(--ink-quiet); max-width: 28rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 0.5rem; }
+.wb-present-counter { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: center; }
+.wb-present-track { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 150; background: var(--rule-soft); }
+.wb-present-bar { display: block; height: 100%; background: var(--accent-fill); transition: width 0.25s; }
+@media (max-width: 48rem) { .wb-present-crumb { display: none; } }
+
 @media print {
-  .wb-topbar, .wb-toc, .wb-toolbar, .wb-toasts { display: none !important; }
+  .wb-topbar, .wb-toc, .wb-toolbar, .wb-toasts, .wb-present-ui { display: none !important; }
   body.wb-has-toc { display: block; }
 }
