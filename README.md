@@ -32,7 +32,7 @@ host or a subfolder of a course web server works the same way.
 ## Layout
 
 ```
-runtime/      shared engine: Pyodide worker, runner, grader, widgets, theme, fonts, logo
+runtime/      shared engine: Pyodide worker, runner, grader, widgets, brand theme, fonts, logo
 workbooks/    one folder per lecture: index.html + exercises.json (+ build_exercises.py)
 lab/          full-screen PyLab editor
 tools/        check_workbook.py (verify a workbook), answers.py (base64 helper)
