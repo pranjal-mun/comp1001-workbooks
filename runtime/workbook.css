@@ -583,9 +583,12 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-blank-cell.is-right .wb-blank { border-color: var(--good); background: var(--good-wash); }
 .wb-blank-cell.is-wrong .wb-blank { border-color: var(--bad); background: var(--bad-wash); }
 .wb-blank-cell.is-answer .wb-blank { border-style: dashed; color: var(--answer); font-weight: 700; }
-.wb-blank-cell.is-right::after { content: " ✓"; color: var(--good-ink); font-weight: 700; }
-.wb-blank-cell.is-wrong::after { content: " ✗"; color: var(--bad-ink); font-weight: 700; }
-.wb-blank-cell.is-right, .wb-blank-cell.is-wrong { display: flex; align-items: center; gap: 0.2rem; }
+.wb-blank-cell.is-right::after { content: "✓"; color: var(--good-ink); font-weight: 700; }
+.wb-blank-cell.is-wrong::after { content: "✗"; color: var(--bad-ink); font-weight: 700; }
+/* Keep the cell a real table cell (display: flex on a <td> breaks the row);
+   the mark sits inline after a slightly narrower field. */
+.wb-blank-cell.is-right, .wb-blank-cell.is-wrong { white-space: nowrap; }
+.wb-blank-cell.is-right .wb-blank, .wb-blank-cell.is-wrong .wb-blank { width: calc(100% - 1.5em); margin-right: 0.3em; vertical-align: middle; }
 
 /* Written answers. */
 .wb-short-input {
