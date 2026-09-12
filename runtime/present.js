@@ -4,7 +4,8 @@
 //
 // Keys (ignored while typing in an editor or field):
 //   F            start / stop presenting (and toggle full screen)
-//   → ↓ PageDown next topic        ← ↑ PageUp  previous topic
+//   → PageDown   next topic        ← PageUp    previous topic
+//   ↑ ↓ Space    scroll within the topic (left to the browser)
 //   Home / End   first / last      Esc         stop presenting
 //
 // Nothing is moved in the DOM: every child of <main> is tagged with its
@@ -95,8 +96,8 @@ export function initPresentation() {
     if (document.body.classList.contains("wb-has-expanded")) return; // an expanded editor owns Esc
     switch (event.key) {
       case "f": case "F": case "Escape": stop(); break;
-      case "ArrowRight": case "ArrowDown": case "PageDown": show(state.index + 1); break;
-      case "ArrowLeft": case "ArrowUp": case "PageUp": show(state.index - 1); break;
+      case "ArrowRight": case "PageDown": show(state.index + 1); break;
+      case "ArrowLeft": case "PageUp": show(state.index - 1); break;
       case "Home": show(0); break;
       case "End": show(topics.length - 1); break;
       default: return;
