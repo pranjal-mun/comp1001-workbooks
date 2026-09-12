@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>COMP 1001 Workbooks</title>
+  <link rel="stylesheet" href="./runtime/workbook.css">
+  <script type="module">
+    import { initTheme } from "./runtime/theme.js";
+    initTheme();
+    document.querySelector("#theme-toggle").addEventListener("click", () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")));
+  </script>
+</head>
+<body>
+<main>
+  <div class="wb-title-block">
+    <div>
+      <div class="wb-course">COMP 1001: Introduction to Programming</div>
+      <h1>Interactive Workbooks</h1>
+      <div class="wb-subtitle">Read, predict, run, and check — all in your browser</div>
+      <p class="wb-meta">Pranjal Patra · Department of Computer Science, Memorial University of Newfoundland</p>
+    </div>
+    <img src="./runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+  </div>
+
+  <p>Each workbook pairs the lecture notes with live Python: every example runs, and every checkpoint and practice problem is checked as you go. Correct answers earn <strong>XP</strong>, which you can spend to reveal model answers. Progress is saved in this browser; use the <strong>⋯</strong> menu inside a workbook to export or import it.</p>
+
+  <h2 id="workbooks">Workbooks</h2>
+  <div class="wb-cards">
+    <a class="wb-card" href="./workbooks/lecture-04/index.html"><strong>Lecture 4</strong><span>Variables, types, and assignment</span></a>
+  </div>
+
+  <h2 id="tools">Tools</h2>
+  <div class="wb-cards">
+    <a class="wb-card" href="./lab/index.html"><strong>PyLab</strong><span>A full-screen Python editor with files and interactive <code>input()</code></span></a>
+  </div>
+
+  <p class="wb-meta">Python runs locally in your browser (Pyodide). Nothing you type is sent anywhere. <button id="theme-toggle" class="wb-btn wb-btn-quiet" type="button">◐ Toggle light / dark</button></p>
+</main>
+</body>
+</html>
