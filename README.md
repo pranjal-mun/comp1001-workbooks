@@ -47,14 +47,14 @@ workbooks/    one folder per lecture: index.html + exercises.json (+ build_exerc
 lab/          full-screen PyLab editor
 tools/        check_workbook.py (verify a workbook), answers.py (base64 helper)
 vendor/       pinned Pyodide and CodeMirror for the offline fallback
-source_material/  the lecture .tex / PDF sources a new workbook is generated from
 ```
 
 ## Adding a workbook
 
-Drop the lecture's `.tex` / PDF into `source_material/lecture-NN/` and follow
-`AGENTS.md` — it is written so a coding agent can do the conversion. Verify
-with:
+The lecture's LaTeX kit lives one level up, in `../workbooks_v2/lecture_NN/`
+(`LECTURE_NN_SHARED_CONTENT.tex` is the source of truth). Follow `AGENTS.md`
+— it is written so a coding agent can do the conversion, one lecture per
+branch. Verify with:
 
 ```bash
 python3 tools/check_workbook.py workbooks/lecture-NN

@@ -8,7 +8,7 @@ explains the why; this file is the how.
 
 | Path | What |
 |---|---|
-| `source_material/lecture-NN/` | The instructor's `.tex` and/or PDF for lecture NN. **Read-only input.** |
+| `../workbooks_v2/lecture_NN/` | The instructor's LaTeX kit for lecture NN, one folder up from this repo (note the underscore; the site uses `lecture-NN`). **Read-only input.** See "The source kit" below. |
 | `workbooks/lecture-NN/index.html` | The page: prose, tables, and widget tags. |
 | `workbooks/lecture-NN/exercises.json` | Specs for every widget on the page, keyed by id. |
 | `workbooks/lecture-NN/build_exercises.py` | Script that generates `exercises.json`. Expected outputs are produced by running the code. |
@@ -20,9 +20,29 @@ explains the why; this file is the how.
 The site is static and every path is relative. Never write an absolute URL or
 a path that starts with `/`; GitHub Pages serves the site from a subfolder.
 
+## The source kit
+
+`../workbooks_v2/lecture_NN/` is the LaTeX project the printed workbook and
+slides are built from. It is outside this repo and must not be edited or
+copied in. What matters in it:
+
+| File | Use it for |
+|---|---|
+| `LECTURE_NN_SHARED_CONTENT.tex` | **The truth.** The whole workbook body: prose, examples, checkpoints, tables, coding practice, and every answer inside `\solution{...}`. |
+| `LECTURE_NN_WORKBOOK_DRIVER.tex` | Preamble and macros (`\solutioncode`, `\solutionoutput`, …). Read it once so you know what each macro in the shared content renders as. |
+| `standard/LECTURE_NN_WORKBOOK_STANDARD.pdf` | The student edition, for layout: where the blank lines, answer boxes, and fill-in tables are. `solarized/` and `rich/` are the same content in other themes. |
+| `standard/LECTURE_NN_WORKBOOK_SOLUTIONS_STANDARD.pdf` | Same page with answers shown. Use it to sanity-check your model answers. |
+| `HANDOFF.md` | The author's notes: title, reading, file map, and an inventory of every program that was executed with its verified output. Read it first. |
+| `VALIDATION.md`, `HANDOFF_ISSUES.md` | Known layout or content issues in the printed edition. Do not carry printed-only workarounds into the web page. |
+| `LECTURE_NN_SLIDES_*.tex/.pdf` | The lecture deck. Not workbook content; ignore unless the workbook references a slide. |
+
+Ignore `logs/`, `render/`, `build.sh`, `render.sh`, and the LaTeX aux files.
+Some folders are incomplete (no `SHARED_CONTENT.tex` yet) — say so and stop
+rather than inventing content.
+
 ## The workflow
 
-1. **Read the source** in `source_material/lecture-NN/`. The `.tex` is the
+1. **Read the source** in `../workbooks_v2/lecture_NN/`. The `.tex` is the
    truth; the PDF shows layout. Keep the lecture's wording, section order,
    tables, and numbering. Do not "improve" the pedagogy.
 2. **Copy `workbooks/lecture-04/` as the template.** Its `index.html` shows
@@ -44,6 +64,24 @@ a path that starts with `/`; GitHub Pages serves the site from a subfolder.
    reads well.
 6. **Add the workbook card** to the root `index.html`.
 7. Commit in small logical steps (specs, page, landing card).
+
+## Working on several lectures at once
+
+Several agent sessions may be converting different lectures in parallel from
+the same clone. To keep them from stepping on each other:
+
+- Work on a branch named `lecture-NN`, created from up-to-date `main`. Never
+  commit to `main` directly.
+- Touch only `workbooks/lecture-NN/` and the one card you add to the root
+  `index.html`. Do not edit `runtime/`, `tools/`, another lecture, or the docs
+  on a lecture branch; if the runtime genuinely needs a change, stop and say
+  so — it is a separate branch and PR.
+- Add your landing card in lecture order, as a single self-contained block,
+  so concurrent branches merge with at most a trivial conflict.
+- Widget ids only need to be unique within your page; they are namespaced
+  by workbook in `localStorage`.
+- When done: `python3 tools/check_workbook.py workbooks/lecture-NN` reports
+  `0 failures`, the branch is rebased on `main`, and you open a PR.
 
 ## Mapping the PDF to widgets
 

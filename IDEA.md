@@ -164,13 +164,13 @@ pylab_workbooks/
 ├── lab/                    ← the full-screen PyLab editor, kept as a page of the site ("Open in PyLab" target)
 ├── tools/                  ← authoring helpers: check_workbook.py (verifies every spec by running it), answers.py (base64 codec)
 ├── vendor/                 ← pinned Pyodide + CodeMirror copies, offline fallback (from pylab/vendor)
-├── workbooks/
-│   └── lecture-04/
-│       ├── index.html      ← the workbook page: prose + tables + component tags
-│       ├── exercises.json  ← specs: starter code, expected output, cases, check scripts, answer keys, model answers
-│       └── build_exercises.py ← generates exercises.json; expected outputs come from running the code
-└── source_material/
-    └── lecture-04/         ← the PDF and/or .tex dumped here; the agent reads these to generate workbooks/lecture-04/
+└── workbooks/
+    └── lecture-04/
+        ├── index.html      ← the workbook page: prose + tables + component tags
+        ├── exercises.json  ← specs: starter code, expected output, cases, check scripts, answer keys, model answers
+        └── build_exercises.py ← generates exercises.json; expected outputs come from running the code
+
+../workbooks_v2/lecture_NN/ ← the instructor's LaTeX kit (outside the repo); the agent reads it to generate workbooks/lecture-NN/
 ```
 
 Key decisions:
@@ -215,8 +215,8 @@ Key decisions:
 
 ## The authoring loop (how future workbooks get made)
 
-1. Instructor drops `LECTURE_NN_WORKBOOK*.pdf` and/or the `.tex` sources into
-   `source_material/lecture-NN/`.
+1. The lecture's LaTeX kit exists in `../workbooks_v2/lecture_NN/`
+   (`LECTURE_NN_SHARED_CONTENT.tex` plus the built workbook PDFs).
 2. Instructor opens the repo in a coding agent (Claude Code, Codex, …) and says
    "generate the web workbook for lecture NN".
 3. The agent follows `AGENTS.md`, which will spell out:
