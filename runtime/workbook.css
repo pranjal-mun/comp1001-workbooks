@@ -649,49 +649,67 @@ main .wb-table-wrap { overflow-x: auto; }
 
 /* Presentation mode (present.js). The page is shown one topic at a time,
    scaled up for a projector, with the chrome reduced to a hamburger menu and
-   a small navigator. Everything else keeps its normal styling. */
+   a small navigator. The root font size is scaled, so everything sized in
+   rem (prose, code, buttons, tables) grows together; the floating controls
+   are sized in px so they stay small. Text is set a little heavier and the
+   greys darker than on the page, which reads better from the back of a room. */
 .wb-present-ui { display: none; }
-body.wb-presenting { display: block; font-size: calc(1.2rem * var(--wb-present-scale, 1.3)); }
+html.wb-presenting { font-size: calc(100% * var(--wb-present-scale, 1.9)); }
+html.wb-presenting { --ink-quiet: #4B4D51; --code-comment: #4B4D51; --rule-soft: #D9D9DB; }
+html.wb-presenting[data-theme="dark"] { --ink-quiet: #CFC8C1; --code-comment: #CFC8C1; --rule-soft: #3E3839; }
+body.wb-presenting { display: block; font-weight: 500; -webkit-font-smoothing: auto; }
 /* Widgets re-measure themselves after a topic change; stop the browser from "helpfully" shifting the scroll position while they do. */
 body { overflow-anchor: none; }
 body.wb-presenting > .wb-topbar, body.wb-presenting > .wb-toc { display: none; }
-body.wb-presenting > main { max-width: calc(52rem * var(--wb-present-scale, 1.3)); padding: 3.5rem 3rem 8rem; }
+body.wb-presenting > main { max-width: 60rem; padding: 2.5rem 2rem 5rem; }
 body.wb-presenting > main > :not(.wb-slide-on), body.wb-presenting > main > hr { display: none !important; }
 body.wb-presenting > main > h2.wb-slide-on, body.wb-presenting > main > h3.wb-slide-on { margin-top: 0; }
 body.wb-presenting > main > h3.wb-slide-on { font-size: 1.6rem; padding-top: 1rem; }
 body.wb-presenting > main > h3.wb-slide-on::before { content: ""; display: block; width: 2.5rem; height: 3px; background: var(--accent-fill); margin-bottom: 0.9rem; }
 body.wb-presenting .wb-present-ui { display: contents; }
-body.wb-presenting .wb-editor .CodeMirror, body.wb-presenting .wb-console { font-size: 0.85em; }
+body.wb-presenting strong { font-weight: 700; }
+body.wb-presenting code, body.wb-presenting kbd { font-size: 0.85em; font-weight: 500; }
+body.wb-presenting .wb-editor .CodeMirror, body.wb-presenting .wb-console, body.wb-presenting pre { font-size: 1.05rem; font-weight: 500; }
+body.wb-presenting .wb-editor .CodeMirror-scroll {
+  min-height: calc(var(--wb-editor-min-lines, 3) * 1.55 * 1.05rem + 0.9rem);
+  max-height: calc(var(--wb-editor-max-lines, 16) * 1.55 * 1.05rem + 0.9rem);
+}
+body.wb-presenting .wb-editor .CodeMirror-linenumber { font-size: 0.85rem; }
+body.wb-presenting .cm-s-workbook .cm-comment { font-style: normal; }
+body.wb-presenting .wb-blank input { font-weight: 500; }
 
-.wb-present-menu { position: fixed; top: 0.9rem; right: 1rem; z-index: 150; font-family: var(--font-sans); font-size: 0.95rem; }
-.wb-present-menu > summary { font-size: 1.25rem; color: var(--ink-quiet); background: var(--paper); border-color: var(--rule-soft); box-shadow: var(--shadow); }
+.wb-present-menu { position: fixed; top: 14px; right: 16px; z-index: 150; font-family: var(--font-sans); font-size: 15px; }
+.wb-present-menu > summary { font-size: 20px; padding: 6px 9px; color: var(--ink-quiet); background: var(--paper); border-color: var(--rule-soft); box-shadow: var(--shadow); }
 .wb-present-menu > summary:hover { color: var(--ink); background: var(--panel); }
-.wb-present-menu .wb-menu-items { width: 20rem; max-height: calc(100vh - 5rem); overflow-y: auto; font-size: 0.95rem; }
-.wb-present-menu-title { color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.68rem; font-weight: 700; padding: 0.4rem 0.7rem 0.2rem; }
-.wb-present-item { display: flex; gap: 0.6rem; align-items: baseline; padding: 0.3rem 0.7rem; font-size: 0.9rem; }
-.wb-present-item.is-level-3 { padding-left: 1.6rem; color: var(--ink-quiet); }
+.wb-present-menu .wb-menu-items { width: 320px; max-height: calc(100vh - 80px); overflow-y: auto; font-size: 15px; top: calc(100% + 6px); padding: 6px; }
+.wb-present-menu .wb-menu-item { padding: 6px 11px; font-size: 15px; border-radius: 5px; }
+.wb-present-menu hr { margin: 5px 0; }
+.wb-present-menu-title { color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; font-weight: 700; padding: 6px 11px 3px; }
+.wb-present-item { display: flex; gap: 10px; align-items: baseline; padding: 4px 11px; font-size: 14px; }
+.wb-present-item.is-level-3 { padding-left: 26px; color: var(--ink-quiet); }
 .wb-present-item.is-current { background: var(--accent-wash); color: var(--accent); font-weight: 600; }
-.wb-present-item-n { flex: none; min-width: 1.6em; text-align: right; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 0.78rem; }
-.wb-present-row { display: flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.7rem; color: var(--ink); }
-.wb-present-scale { min-width: 3em; text-align: center; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 0.85rem; }
-.wb-present-menu kbd { float: right; margin-left: 1rem; font-size: 0.75em; color: var(--ink-quiet); background: var(--panel); border: 1px solid var(--rule-soft); border-radius: 4px; padding: 0.05em 0.4em; }
-.wb-present-hint { color: var(--ink-quiet); font-size: 0.78rem; padding: 0.4rem 0.7rem 0.2rem; }
+.wb-present-item-n { flex: none; min-width: 1.6em; text-align: right; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 12px; }
+.wb-present-row { display: flex; align-items: center; gap: 5px; padding: 3px 11px; color: var(--ink); }
+.wb-present-row .wb-btn { font-size: 13px; padding: 6px 9px; }
+.wb-present-scale { min-width: 3em; text-align: center; color: var(--ink-quiet); font-variant-numeric: tabular-nums; font-size: 13px; }
+.wb-present-menu kbd { float: right; margin-left: 16px; font-size: 11px; color: var(--ink-quiet); background: var(--panel); border: 1px solid var(--rule-soft); border-radius: 4px; padding: 1px 6px; }
+.wb-present-hint { color: var(--ink-quiet); font-size: 12px; padding: 6px 11px 3px; }
 
 .wb-present-nav {
-  position: fixed; right: 1rem; bottom: 1rem; z-index: 150;
-  display: flex; align-items: center; gap: 0.15rem;
-  padding: 0.25rem 0.35rem 0.25rem 0.9rem;
-  font-family: var(--font-sans); font-size: 0.85rem;
+  position: fixed; right: 16px; bottom: 16px; z-index: 150;
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 6px 4px 14px;
+  font-family: var(--font-sans); font-size: 14px;
   background: var(--paper); border: 1px solid var(--rule-soft); border-radius: 999px; box-shadow: var(--shadow);
   opacity: 0.55; transition: opacity 0.2s;
 }
 .wb-present-nav:hover, .wb-present-nav:focus-within { opacity: 1; }
-.wb-present-nav .wb-btn-icon { font-size: 1.3rem; line-height: 1; padding: 0.15rem 0.5rem; border-radius: 999px; }
-.wb-present-crumb { color: var(--ink-quiet); max-width: 28rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 0.5rem; }
+.wb-present-nav .wb-btn-icon { font-size: 21px; line-height: 1; padding: 2px 8px; border-radius: 999px; }
+.wb-present-crumb { color: var(--ink-quiet); max-width: 440px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 8px; }
 .wb-present-counter { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; min-width: 4.5em; text-align: center; }
-.wb-present-track { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 150; background: var(--rule-soft); }
+.wb-present-track { position: fixed; left: 0; right: 0; bottom: 0; height: 4px; z-index: 150; background: var(--rule-soft); }
 .wb-present-bar { display: block; height: 100%; background: var(--accent-fill); transition: width 0.25s; }
-@media (max-width: 48rem) { .wb-present-crumb { display: none; } }
+@media (max-width: 768px) { .wb-present-crumb { display: none; } }
 
 @media print {
   .wb-topbar, .wb-toc, .wb-toolbar, .wb-toasts, .wb-present-ui { display: none !important; }

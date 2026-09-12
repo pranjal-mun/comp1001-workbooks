@@ -12,7 +12,10 @@
 // their state across topics.
 
 const SCALE_KEY = "pylab-workbooks:present-scale";
-const SCALES = [1, 1.15, 1.3, 1.5, 1.75];
+// Multiples of the page's normal type size. Even the smallest step is meant to
+// be readable from the back of a classroom; there is no "normal size" here.
+const SCALES = [1.5, 1.7, 1.9, 2.15, 2.4];
+const DEFAULT_SCALE = 1.9;
 
 export function initPresentation() {
   const main = document.querySelector("main");
@@ -46,6 +49,7 @@ export function initPresentation() {
     if (state.on) return;
     state.on = true;
     const index = topicAtViewport(topics); // measured before the layout changes
+    document.documentElement.classList.add("wb-presenting");
     document.body.classList.add("wb-presenting");
     ui.menu.open = false;
     show(index);
@@ -55,6 +59,7 @@ export function initPresentation() {
   const stop = () => {
     if (!state.on) return;
     state.on = false;
+    document.documentElement.classList.remove("wb-presenting");
     document.body.classList.remove("wb-presenting");
     ui.menu.open = false;
     const heading = topics[state.index].heading;
@@ -186,7 +191,7 @@ function buildUi(topics, state) {
 }
 
 function loadScale() {
-  try { const v = Number(localStorage.getItem(SCALE_KEY)); return SCALES.includes(v) ? v : 1.3; } catch { return 1.3; }
+  try { const v = Number(localStorage.getItem(SCALE_KEY)); return SCALES.includes(v) ? v : DEFAULT_SCALE; } catch { return DEFAULT_SCALE; }
 }
 
 function stepScale(current, dir) {
