@@ -40,7 +40,7 @@
     <li>explain what you learned and apply it to a different problem.</li>
   </ul>
   <p>Reading: §1.7, HT 1.1 and Worked Example 1.1.</p>
-  <p class="wb-meta">This lecture has no Python. The practice questions at the end are written answers and fill-in tables; they award XP when you get them right, and XP can be spent to reveal a model answer.</p>
+  <p class="wb-meta">This lecture has no Python and no questions to check: it is problem solving on paper. Read it with a pen in hand and work the pizza and tile examples yourself before looking at the revisions.</p>
 </section>
 <hr>
 
@@ -541,82 +541,6 @@
 <p>An algorithm gives precise, ordered steps that finish the task. The framework helps you develop and improve those steps. It is not itself a fixed algorithm for every problem.</p>
 <p>The pizza example needed a new agreement when equal payments could not cover the original bill in whole cents. The tile example needed a better instruction when separately alternating rows failed to make an alternating floor. In both cases, checking the whole result mattered.</p>
 <p>In programming, the framework helps turn a request into a tested program. In everyday planning, it helps clarify goals, organise work, and check the result. Use enough structure to make progress; revisit an activity when a new discovery requires it.</p>
-
-<h2 id="final-practice">Final Practice</h2>
-<p>Use plain English, calculations, or labelled drawings. Python and pseudocode are not required. Give enough detail that another person can follow your reasoning.</p>
-
-<h3>1. Clarifying a New Request</h3>
-<p>A different group says: “We also want a fair payment for our pizza order.” They know the food cost and number of people but have not stated any other rules. Write four questions that would affect your solution. Then explain why copying our lecture's final calculation without asking could give the wrong result.</p>
-<wb-short id="p1-questions"></wb-short>
-
-<h3>2. Applying the Revised Payment Rule</h3>
-<p>Use the lecture's agreed pizza rules, including the smallest tip increase when needed. The food costs CA$50, delivery costs CA$10, and the agreed tip is CA$6.</p>
-<p><strong>(a)</strong> Describe the complete calculation in plain English, including when to stop adjusting the tip.</p>
-<wb-short id="p2a-method"></wb-short>
-<p><strong>(b)</strong> Calculate the tax, original bill, final tip, revised bill, and payment for 4 people. <strong>(c)</strong> Repeat for 7 people. Enter each amount in dollars and cents, such as <code>12.50</code>.</p>
-<wb-table id="p2b-table">
-  <div class="wb-table-wrap">
-  <table>
-    <thead><tr><th>People</th><th>Tax</th><th>Original bill</th><th>Final tip</th><th>Revised bill</th><th>Payment each</th></tr></thead>
-    <tbody>
-      <tr><td>4</td><td data-blank="tax4"></td><td data-blank="orig4"></td><td data-blank="tip4"></td><td data-blank="bill4"></td><td data-blank="pay4"></td></tr>
-      <tr><td>7</td><td data-blank="tax7"></td><td data-blank="orig7"></td><td data-blank="tip7"></td><td data-blank="bill7"></td><td data-blank="pay7"></td></tr>
-    </tbody>
-  </table>
-  </div>
-</wb-table>
-<p>Show your working for 7 people, and verify that all payments together cover the revised bill.</p>
-<wb-short id="p2c-verify"></wb-short>
-
-<h3>3. Checking a Tile Method</h3>
-<p>Use the lecture's tile rules for a floor 12 inches wide and 8 inches high.</p>
-<p><strong>(a)</strong> Find the number of tiles per row, the number of rows, and the total tiles.</p>
-<wb-table id="p3a-count">
-  <table>
-    <thead><tr><th>Quantity</th><th>Value</th></tr></thead>
-    <tbody>
-      <tr><td>Tiles per row</td><td data-blank="per-row"></td></tr>
-      <tr><td>Number of rows</td><td data-blank="rows"></td></tr>
-      <tr><td>Total tiles</td><td data-blank="total"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p>Draw the finished floor: write <em>black</em> or <em>white</em> in each position. Tile 1 is the top-left corner.</p>
-<wb-table id="p3a-floor">
-  <table>
-    <thead><tr><th>Row</th><th>Position 1</th><th>Position 2</th><th>Position 3</th></tr></thead>
-    <tbody>
-      <tr><td>Row 1 (tiles 1–3)</td><td data-blank="t1"></td><td data-blank="t2"></td><td data-blank="t3"></td></tr>
-      <tr><td>Row 2 (tiles 4–6)</td><td data-blank="t4"></td><td data-blank="t5"></td><td data-blank="t6"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p><strong>(b)</strong> A proposed method says: “Start with black. Switch colour after every tile placed, including when starting a new row.” Explain why this happens to work on the 12 × 8 floor but fails on a 16 × 8 floor. State the corrected rule.</p>
-<wb-short id="p3b-rule"></wb-short>
-<p><strong>(c)</strong> Explain how you would check the whole floor, rather than only one row.</p>
-<wb-short id="p3c-check"></wb-short>
-
-<h3>4. Packing Books</h3>
-<p>A group needs to pack books for a move. Each box can hold at most 6 books. All books fit in these boxes, and there are enough boxes available. Use as few boxes as possible, pack every book, and never put more than 6 in a box. The input is a whole number of books, zero or more. The output should state the number of boxes and how many books go in each box.</p>
-<p><strong>(a)</strong> Describe a method in plain English. You do not need to write six framework headings.</p>
-<wb-short id="p4a-method"></wb-short>
-<p><strong>(b)</strong> Apply it to 23 books, 24 books, and 0 books. Check both the total books and the box capacity. List the books per box separated by commas, such as <code>6, 4</code>.</p>
-<wb-table id="p4b-table">
-  <table>
-    <thead><tr><th>Books</th><th>Boxes</th><th>Books in each box</th></tr></thead>
-    <tbody>
-      <tr><td>23</td><td data-blank="boxes23"></td><td data-blank="counts23"></td></tr>
-      <tr><td>24</td><td data-blank="boxes24"></td><td data-blank="counts24"></td></tr>
-      <tr><td>0</td><td data-blank="boxes0"></td><td data-blank="counts0"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p><strong>(c)</strong> Explain why rounding 23 ÷ 6 down to 3 boxes does not meet the requirements.</p>
-<wb-short id="p4c-why"></wb-short>
-
-<h3>5. Reflection and Transfer</h3>
-<p>Compare the pizza and tile examples. For each, state the initial method, the problem found, and the revision. Then choose one lesson that could help with the book-packing task and explain how you would apply it.</p>
-<wb-short id="p5-reflect"></wb-short>
 
 </main>
 </body>
