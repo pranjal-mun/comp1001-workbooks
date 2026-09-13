@@ -29,7 +29,6 @@ vendor/       pinned Pyodide and CodeMirror for the offline fallback
 ```
 
 Verify a workbook with `python3 tools/check_workbook.py workbooks/lecture-NN`.
-Authoring conventions are in `AGENTS.md`.
 
 ## Notes
 
