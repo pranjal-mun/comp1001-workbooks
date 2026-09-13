@@ -91,6 +91,7 @@ function buildTopBar({ title, subtitle, progress, exerciseIds }) {
   document.addEventListener("click", (e) => { if (!menu.contains(e.target)) menu.open = false; });
 
   const topbar = el("header", { class: "wb-topbar" },
+    el("a", { class: "wb-btn wb-btn-quiet wb-topbar-home", href: HOME_URL, title: "All workbooks", "aria-label": "Home" }, "🏠"),
     el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
     el("div", { class: "wb-topbar-title" }, el("strong", {}, title), subtitle ? el("span", {}, subtitle) : null),
     el("span", { class: "wb-spacer" }),

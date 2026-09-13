@@ -283,6 +283,7 @@ main .wb-table-wrap { overflow-x: auto; }
   font-family: var(--font-sans);
   font-size: 0.85rem;
 }
+.wb-topbar-home { padding: 0.2rem 0.45rem; font-size: 0.95rem; line-height: 1; text-decoration: none; }
 .wb-topbar-brand img { height: 2.1rem; display: block; }
 .wb-topbar-title { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
 .wb-topbar-title strong { color: var(--ink); font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

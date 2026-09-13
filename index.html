@@ -6,106 +6,258 @@
   <title>COMP 1001 Workbooks</title>
   <link rel="stylesheet" href="./runtime/workbook.css">
   <style>
-    .wb-unit { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; margin-top: 2.2rem; }
-    .wb-unit-num { font-family: var(--font-sans); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; }
-    .wb-unit-range { font-family: var(--font-sans); font-size: 0.85rem; font-weight: 400; color: var(--ink-quiet); margin-left: auto; }
-    .wb-unit + .wb-cards { margin-top: 0.8rem; }
-    .wb-card.is-soon { opacity: 0.55; border-style: dashed; cursor: default; }
-    .wb-card.is-soon:hover { border-color: var(--rule); box-shadow: none; }
-    .wb-card.is-soon strong { color: var(--ink-quiet); }
+    main.wb-dash { max-width: 80rem; padding: 1.6rem 1.5rem 4rem; }
+    .wb-dash-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .wb-dash-head h1 { font-size: 1.9rem; }
+    .wb-dash-head .wb-course { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+    .wb-dash-head p { margin: 0.35rem 0 0; color: var(--ink-quiet); font-size: 1.1rem; max-width: 42rem; }
+    .wb-dash-head .wb-meta { font-family: var(--font-sans); font-size: 0.82rem; color: var(--ink-quiet); text-align: right; margin: 0; }
+
+    .wb-dash-grid { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; grid-template-areas: "units next" "units side"; grid-template-rows: auto 1fr; gap: 1.25rem 1.75rem; align-items: start; }
+    .wb-units { grid-area: units; display: grid; grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); gap: 1rem; }
+    .wb-next { grid-area: next; }
+    .wb-side { grid-area: side; display: grid; gap: 1.25rem; }
+
+    .wb-unit { border: 1px solid var(--rule-soft); border-radius: 10px; background: var(--paper); padding: 0.85rem 0.9rem 0.6rem; }
+    .wb-unit h2 { font-size: 1rem; margin: 0 0 0.45rem; padding: 0; line-height: 1.25; }
+    .wb-unit h2::before { display: none; }
+    .wb-unit-num { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.15rem; }
+    .wb-lec { display: grid; grid-template-columns: 2.1rem minmax(0, 1fr) auto; grid-template-areas: "num title date" "num title prog"; align-items: baseline; column-gap: 0.5rem; padding: 0.38rem 0.45rem; margin: 0 -0.45rem; border-radius: 6px; text-decoration: none; color: var(--ink); font-family: var(--font-sans); font-size: 0.88rem; line-height: 1.3; position: relative; }
+    a.wb-lec:hover { background: var(--panel); color: var(--ink); }
+    .wb-lec-num { grid-area: num; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+    .wb-lec-title { grid-area: title; }
+    .wb-lec-date { grid-area: date; font-size: 0.74rem; color: var(--ink-quiet); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .wb-lec-prog { grid-area: prog; justify-self: end; font-size: 0.72rem; color: var(--ink-quiet); font-variant-numeric: tabular-nums; }
+    .wb-lec-prog.is-done { color: var(--good-ink); font-weight: 700; }
+    .wb-lec.is-soon { color: var(--ink-quiet); }
+    .wb-lec.is-soon .wb-lec-num { color: var(--rule-strong); }
+    .wb-lec.is-next { background: var(--accent-wash); }
+    .wb-lec.is-next::before { content: ""; position: absolute; left: 0; top: 0.3rem; bottom: 0.3rem; width: 3px; border-radius: 2px; background: var(--accent-fill); }
+
+    .wb-panel { border: 1px solid var(--rule-soft); border-radius: 10px; background: var(--panel); padding: 0.9rem 1rem 1rem; font-family: var(--font-sans); font-size: 0.88rem; }
+    .wb-panel h2 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-quiet); margin: 0 0 0.55rem; padding: 0; }
+    .wb-panel h2::before { display: none; }
+    .wb-panel p { margin: 0.3rem 0; }
+    .wb-panel .wb-big { display: block; font-family: var(--font-sans); font-weight: 800; font-size: 1.35rem; line-height: 1.2; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+    .wb-panel a.wb-big:hover { color: var(--accent); }
+    .wb-panel .wb-when { color: var(--ink-quiet); font-size: 0.8rem; }
+    .wb-panel .wb-quiet { color: var(--ink-quiet); font-size: 0.82rem; }
+    .wb-panel .wb-btn { margin-top: 0.6rem; text-decoration: none; display: inline-block; }
+    .wb-panel-next { background: var(--paper); border-color: var(--accent); }
+    .wb-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin: 0.2rem 0 0.6rem; }
+    .wb-stat b { display: block; font-size: 1.35rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .wb-stat span { font-size: 0.74rem; color: var(--ink-quiet); text-transform: uppercase; letter-spacing: 0.06em; }
+    .wb-panel .wb-progress-track { width: 100%; display: block; }
+    .wb-dates { list-style: none; margin: 0; padding: 0; }
+    .wb-dates li { display: flex; justify-content: space-between; gap: 0.6rem; padding: 0.3rem 0; border-top: 1px solid var(--rule-soft); }
+    .wb-dates li:first-child { border-top: 0; padding-top: 0; }
+    .wb-dates b { font-weight: 700; }
+    .wb-dates small { display: block; color: var(--ink-quiet); font-size: 0.78rem; }
+    .wb-dates time { color: var(--ink-quiet); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .wb-foot { font-family: var(--font-sans); font-size: 0.8rem; color: var(--ink-quiet); margin-top: 2rem; }
+    .wb-topbar .wb-btn { text-decoration: none; }
+
+    @media (max-width: 62rem) {
+      .wb-dash-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "next" "units" "side"; grid-template-rows: auto; }
+      .wb-dash-head .wb-meta { text-align: left; }
+    }
+    @media (max-width: 40rem) {
+      main.wb-dash { padding: 1rem 0.9rem 3rem; }
+      .wb-units { grid-template-columns: minmax(0, 1fr); }
+      .wb-dash-head h1 { font-size: 1.6rem; }
+      .wb-dash-head p { font-size: 1rem; }
+    }
   </style>
   <script type="module">
     import { initTheme } from "./runtime/theme.js";
     initTheme();
     document.querySelector("#theme-toggle").addEventListener("click", () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")));
+
+    // [lecture number, date, built]
+    const LECTURES = [[1,"2026-09-09",1],[2,"2026-09-11",1],[3,"2026-09-14",1],[4,"2026-09-16",1],[5,"2026-09-18",1],[6,"2026-09-21",1],[7,"2026-09-23",1],[8,"2026-09-25",1],[9,"2026-09-28",1],[10,"2026-10-02",1],[11,"2026-10-05",1],[12,"2026-10-07",0],[13,"2026-10-09",0],[14,"2026-10-14",0],[15,"2026-10-16",0],[16,"2026-10-19",0],[17,"2026-10-21",0],[18,"2026-10-23",0],[19,"2026-10-26",0],[20,"2026-10-28",0],[21,"2026-10-30",0],[22,"2026-11-02",0],[23,"2026-11-04",0],[24,"2026-11-06",0],[25,"2026-11-09",0],[26,"2026-11-13",0],[27,"2026-11-16",0],[28,"2026-11-18",0],[29,"2026-11-20",0],[30,"2026-11-23",0],[31,"2026-11-25",0],[32,"2026-11-27",0],[33,"2026-11-30",0],[34,"2026-12-02",0],[35,"2026-12-04",0],[36,"2026-12-07",0]];
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const at = (d) => new Date(d + "T00:00:00");
+    const fmt = (d) => new Date(d + "T12:00:00").toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" });
+    const titleOf = (n) => document.querySelector(`.wb-lec[data-n="${n}"] .wb-lec-title`)?.innerHTML ?? "";
+    const pad = (n) => String(n).padStart(2, "0");
+    const pageOf = (n) => `./workbooks/lecture-${pad(n)}/index.html`;
+
+    // Up next: the first lecture on or after today. Before term that is L1; after term, the exam.
+    const panel = document.querySelector("#next");
+    const big = panel.querySelector(".wb-big");
+    const next = LECTURES.find(([, d]) => at(d) >= today);
+    const latest = [...LECTURES].reverse().find(([, , built]) => built);
+    if (next) {
+      const [n, d, built] = next;
+      panel.querySelector("h2").textContent = at(d).getTime() === today.getTime() ? "Today" : "Up next";
+      panel.querySelector(".wb-when").textContent = `Lecture ${n} · ${fmt(d)}`;
+      big.innerHTML = titleOf(n);
+      if (built) big.href = pageOf(n);
+      else { big.removeAttribute("href"); panel.querySelector(".wb-quiet").hidden = false; }
+      document.querySelector(`.wb-lec[data-n="${n}"]`)?.classList.add("is-next");
+    } else {
+      panel.querySelector("h2").textContent = "Lectures have ended";
+      panel.querySelector(".wb-when").textContent = "Final examination: December 10 to 18";
+      big.textContent = "Time to review";
+      big.removeAttribute("href");
+    }
+    const latestLink = panel.querySelector(".wb-latest");
+    latestLink.href = pageOf(latest[0]);
+    latestLink.textContent = `Latest workbook: Lecture ${latest[0]}`;
+    if (next && next[0] === latest[0]) latestLink.hidden = true;
+
+    // Progress: XP and per-workbook records live in localStorage; totals come from each exercises.json.
+    const read = (key) => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } };
+    document.querySelector("#xp").textContent = String(read("pylab-workbooks:xp")?.balance ?? 0);
+    let done = 0, total = 0, touched = 0;
+    await Promise.all(LECTURES.filter(([, , built]) => built).map(async ([n]) => {
+      const id = `lecture-${pad(n)}`;
+      let specs;
+      try { specs = (await (await fetch(`./workbooks/${id}/exercises.json`)).json()).exercises; } catch { return; }
+      const ids = Object.keys(specs).filter((k) => specs[k].type !== "example");
+      if (!ids.length) return;
+      const saved = read(`pylab-workbooks:progress:${id}`)?.exercises ?? {};
+      const d = ids.filter((k) => saved[k]?.passed || saved[k]?.revealed).length;
+      total += ids.length; done += d;
+      if (Object.keys(saved).length) touched++;
+      const prog = document.querySelector(`.wb-lec[data-id="${id}"] .wb-lec-prog`);
+      if (prog && d) {
+        prog.hidden = false;
+        prog.textContent = d === ids.length ? "✓ done" : `${d} / ${ids.length}`;
+        prog.classList.toggle("is-done", d === ids.length);
+      }
+    }));
+    document.querySelector("#done").textContent = `${done} / ${total}`;
+    document.querySelector("#fill").style.width = total ? `${Math.round(100 * done / total)}%` : "0";
+    document.querySelector("#touched").textContent = touched
+      ? `Saved in this browser. You have started ${touched} workbook${touched === 1 ? "" : "s"}.`
+      : "Saved in this browser. Open a workbook and answer a question to get started.";
   </script>
 </head>
 <body>
-<main>
-  <div class="wb-title-block">
+<header class="wb-topbar">
+  <a class="wb-topbar-brand" href="./index.html" title="Home"><img src="./runtime/img/mun-logo.svg" alt="Memorial University"></a>
+  <div class="wb-topbar-title"><strong>COMP 1001</strong><span>Interactive Workbooks</span></div>
+  <span class="wb-spacer"></span>
+  <a class="wb-btn wb-btn-quiet" href="./lab/index.html">PyLab</a>
+  <button id="theme-toggle" class="wb-btn wb-btn-quiet wb-theme-toggle" type="button" title="Toggle light / dark">◐</button>
+</header>
+<main class="wb-dash">
+  <div class="wb-dash-head">
     <div>
       <div class="wb-course">COMP 1001: Introduction to Programming</div>
       <h1>Interactive Workbooks</h1>
-      <div class="wb-subtitle">Read, predict, run, and check — all in your browser</div>
-      <p class="wb-meta">Pranjal Patra · Department of Computer Science, Memorial University of Newfoundland</p>
+      <p>One workbook per lecture. Read the notes, predict what the code does, run it, and check your answers. Python runs in your browser and nothing you type is uploaded.</p>
     </div>
-    <img src="./runtime/img/mun-logo.svg" alt="Memorial University of Newfoundland">
+    <p class="wb-meta">Pranjal Patra<br>Department of Computer Science<br>Memorial University of Newfoundland</p>
   </div>
 
-  <p>Each workbook pairs the lecture notes with live Python: every example runs, and every checkpoint and practice problem is checked as you go. Correct answers earn <strong>XP</strong>, which you can spend to reveal model answers. Progress is saved in this browser; use the <strong>⋯</strong> menu inside a workbook to export or import it.</p>
+  <div class="wb-dash-grid">
+    <section class="wb-panel wb-panel-next wb-next" id="next">
+      <h2>Latest workbook</h2>
+      <p class="wb-when">Lecture 11</p>
+      <a class="wb-big" href="./workbooks/lecture-11/index.html">Open the newest workbook</a>
+      <p class="wb-quiet" hidden>This workbook is not posted yet. It appears here on the day of the lecture.</p>
+      <a class="wb-btn wb-btn-quiet wb-latest" href="./workbooks/lecture-11/index.html" hidden>Latest workbook: Lecture 11</a>
+    </section>
 
-  <h2 id="workbooks">Workbooks</h2>
-  <p>One workbook per lecture, grouped by unit as in the course outline. Workbooks appear here as the term progresses; a greyed card is a lecture that is still to come. Course information, dates and policies are collected in the <a href="./workbooks/lecture-01/index.html">Lecture 1 workbook</a>.</p>
-  <h3 class="wb-unit" id="unit-1"><span class="wb-unit-num">Unit 1</span> Problem solving and a first program <span class="wb-unit-range">Lectures 1–3</span></h3>
-  <div class="wb-cards">
-    <a class="wb-card" href="./workbooks/lecture-01/index.html"><strong>Lecture 1</strong><span>Course introduction, computers and software</span></a>
-    <a class="wb-card" href="./workbooks/lecture-02/index.html"><strong>Lecture 2</strong><span>Problem solving: from understanding to reflection</span></a>
-    <a class="wb-card" href="./workbooks/lecture-03/index.html"><strong>Lecture 3</strong><span>Algorithms, pseudocode and programs</span></a>
-  </div>
-  <h3 class="wb-unit" id="unit-2"><span class="wb-unit-num">Unit 2</span> Values, expressions, input and output <span class="wb-unit-range">Lectures 4–7</span></h3>
-  <div class="wb-cards">
-    <a class="wb-card" href="./workbooks/lecture-04/index.html"><strong>Lecture 4</strong><span>Variables, types, and assignment</span></a>
-    <a class="wb-card" href="./workbooks/lecture-05/index.html"><strong>Lecture 5</strong><span>Arithmetic, expressions, and modules</span></a>
-    <a class="wb-card" href="./workbooks/lecture-06/index.html"><strong>Lecture 6</strong><span>Input and output, and f-strings</span></a>
-    <a class="wb-card" href="./workbooks/lecture-07/index.html"><strong>Lecture 7</strong><span>Strings</span></a>
-  </div>
-  <h3 class="wb-unit" id="unit-3"><span class="wb-unit-num">Unit 3</span> Decisions <span class="wb-unit-range">Lectures 8–11</span></h3>
-  <div class="wb-cards">
-    <a class="wb-card" href="./workbooks/lecture-08/index.html"><strong>Lecture 8</strong><span>Problem solving with decisions: the if statement</span></a>
-    <a class="wb-card" href="./workbooks/lecture-09/index.html"><strong>Lecture 9</strong><span>Relational operators and comparing values</span></a>
-    <a class="wb-card" href="./workbooks/lecture-10/index.html"><strong>Lecture 10</strong><span>Nested branches and elif chains</span></a>
-    <a class="wb-card" href="./workbooks/lecture-11/index.html"><strong>Lecture 11</strong><span>Boolean operators, <code>bool</code>, and input validation</span></a>
-  </div>
-  <h3 class="wb-unit" id="unit-4"><span class="wb-unit-num">Unit 4</span> Loops <span class="wb-unit-range">Lectures 12–16</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 12</strong><span>The <code>while</code> loop</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 13</strong><span>Hand-tracing, sentinels, common loop bugs</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 14</strong><span>The <code>for</code> loop and ranges</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 15</strong><span>Nested loops, <code>break</code> and <code>continue</code></span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 16</strong><span>Loop algorithms, random numbers</span></div>
-  </div>
-  <h3 class="wb-unit" id="unit-5"><span class="wb-unit-num">Unit 5</span> Functions <span class="wb-unit-range">Lectures 17–20</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 17</strong><span>Functions as black boxes; decomposition</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 18</strong><span>Parameters and return values</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 19</strong><span>Argument styles, <code>main()</code>, the call stack</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 20</strong><span>Stepwise refinement and scope</span></div>
-  </div>
-  <h3 class="wb-unit" id="unit-6"><span class="wb-unit-num">Unit 6</span> Recursion <span class="wb-unit-range">Lectures 21–23</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 21</strong><span>The recursive idea; base cases</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 22</strong><span>Tracing recursion; recursive helpers</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 23</strong><span>Recursion vs iteration; Towers of Hanoi</span></div>
-  </div>
-  <h3 class="wb-unit" id="unit-7"><span class="wb-unit-num">Unit 7</span> Lists, searching and sorting <span class="wb-unit-range">Lectures 24–28</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 24</strong><span>Lists: properties and operations</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 25</strong><span>List algorithms, slices, comprehensions</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 26</strong><span>Lists with functions; tables</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 27</strong><span>Linear and binary search</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 28</strong><span>Selection sort and merge sort</span></div>
-  </div>
-  <h3 class="wb-unit" id="unit-8"><span class="wb-unit-num">Unit 8</span> Exceptions and files <span class="wb-unit-range">Lectures 29–33</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 29</strong><span>Exceptions: what they are; <code>try</code> / <code>except</code></span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 30</strong><span><code>raise</code>, <code>else</code>, <code>finally</code>; reading tracebacks</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 31</strong><span>Input validation and robust programs</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 32</strong><span>Reading and writing text files</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 33</strong><span>Processing text; files that fail safely</span></div>
-  </div>
-  <h3 class="wb-unit" id="unit-9"><span class="wb-unit-num">Unit 9</span> Collections, objects and review <span class="wb-unit-range">Lectures 34–36</span></h3>
-  <div class="wb-cards">
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 34</strong><span>Sets and dictionaries</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 35</strong><span>Objects and classes</span></div>
-    <div class="wb-card is-soon" aria-disabled="true"><strong>Lecture 36</strong><span>Course review</span></div>
+    <div class="wb-units">
+    <section class="wb-unit" id="unit-1" aria-labelledby="unit-1-h">
+      <h2 id="unit-1-h"><span class="wb-unit-num">Unit 1</span>Problem solving and a first program</h2>
+      <a class="wb-lec" href="./workbooks/lecture-01/index.html" data-n="1" data-id="lecture-01"><span class="wb-lec-num">L1</span><span class="wb-lec-title">Course introduction, computers and software</span><time class="wb-lec-date" datetime="2026-09-09">Sep 9</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-02/index.html" data-n="2" data-id="lecture-02"><span class="wb-lec-num">L2</span><span class="wb-lec-title">Problem solving: from understanding to reflection</span><time class="wb-lec-date" datetime="2026-09-11">Sep 11</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-03/index.html" data-n="3" data-id="lecture-03"><span class="wb-lec-num">L3</span><span class="wb-lec-title">Algorithms, pseudocode and programs</span><time class="wb-lec-date" datetime="2026-09-14">Sep 14</time><span class="wb-lec-prog" hidden></span></a>
+    </section>
+    <section class="wb-unit" id="unit-2" aria-labelledby="unit-2-h">
+      <h2 id="unit-2-h"><span class="wb-unit-num">Unit 2</span>Values, expressions, input and output</h2>
+      <a class="wb-lec" href="./workbooks/lecture-04/index.html" data-n="4" data-id="lecture-04"><span class="wb-lec-num">L4</span><span class="wb-lec-title">Variables, types, and assignment</span><time class="wb-lec-date" datetime="2026-09-16">Sep 16</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-05/index.html" data-n="5" data-id="lecture-05"><span class="wb-lec-num">L5</span><span class="wb-lec-title">Arithmetic, expressions, and modules</span><time class="wb-lec-date" datetime="2026-09-18">Sep 18</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-06/index.html" data-n="6" data-id="lecture-06"><span class="wb-lec-num">L6</span><span class="wb-lec-title">Input and output, and f-strings</span><time class="wb-lec-date" datetime="2026-09-21">Sep 21</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-07/index.html" data-n="7" data-id="lecture-07"><span class="wb-lec-num">L7</span><span class="wb-lec-title">Strings</span><time class="wb-lec-date" datetime="2026-09-23">Sep 23</time><span class="wb-lec-prog" hidden></span></a>
+    </section>
+    <section class="wb-unit" id="unit-3" aria-labelledby="unit-3-h">
+      <h2 id="unit-3-h"><span class="wb-unit-num">Unit 3</span>Decisions</h2>
+      <a class="wb-lec" href="./workbooks/lecture-08/index.html" data-n="8" data-id="lecture-08"><span class="wb-lec-num">L8</span><span class="wb-lec-title">Problem solving with decisions: the if statement</span><time class="wb-lec-date" datetime="2026-09-25">Sep 25</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-09/index.html" data-n="9" data-id="lecture-09"><span class="wb-lec-num">L9</span><span class="wb-lec-title">Relational operators and comparing values</span><time class="wb-lec-date" datetime="2026-09-28">Sep 28</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-10/index.html" data-n="10" data-id="lecture-10"><span class="wb-lec-num">L10</span><span class="wb-lec-title">Nested branches and elif chains</span><time class="wb-lec-date" datetime="2026-10-02">Oct 2</time><span class="wb-lec-prog" hidden></span></a>
+      <a class="wb-lec" href="./workbooks/lecture-11/index.html" data-n="11" data-id="lecture-11"><span class="wb-lec-num">L11</span><span class="wb-lec-title">Boolean operators, <code>bool</code>, and input validation</span><time class="wb-lec-date" datetime="2026-10-05">Oct 5</time><span class="wb-lec-prog" hidden></span></a>
+    </section>
+    <section class="wb-unit" id="unit-4" aria-labelledby="unit-4-h">
+      <h2 id="unit-4-h"><span class="wb-unit-num">Unit 4</span>Loops</h2>
+      <div class="wb-lec is-soon" data-n="12"><span class="wb-lec-num">L12</span><span class="wb-lec-title">The <code>while</code> loop</span><time class="wb-lec-date" datetime="2026-10-07">Oct 7</time></div>
+      <div class="wb-lec is-soon" data-n="13"><span class="wb-lec-num">L13</span><span class="wb-lec-title">Hand-tracing, sentinels, common loop bugs</span><time class="wb-lec-date" datetime="2026-10-09">Oct 9</time></div>
+      <div class="wb-lec is-soon" data-n="14"><span class="wb-lec-num">L14</span><span class="wb-lec-title">The <code>for</code> loop and ranges</span><time class="wb-lec-date" datetime="2026-10-14">Oct 14</time></div>
+      <div class="wb-lec is-soon" data-n="15"><span class="wb-lec-num">L15</span><span class="wb-lec-title">Nested loops, <code>break</code> and <code>continue</code></span><time class="wb-lec-date" datetime="2026-10-16">Oct 16</time></div>
+      <div class="wb-lec is-soon" data-n="16"><span class="wb-lec-num">L16</span><span class="wb-lec-title">Loop algorithms, random numbers</span><time class="wb-lec-date" datetime="2026-10-19">Oct 19</time></div>
+    </section>
+    <section class="wb-unit" id="unit-5" aria-labelledby="unit-5-h">
+      <h2 id="unit-5-h"><span class="wb-unit-num">Unit 5</span>Functions</h2>
+      <div class="wb-lec is-soon" data-n="17"><span class="wb-lec-num">L17</span><span class="wb-lec-title">Functions as black boxes; decomposition</span><time class="wb-lec-date" datetime="2026-10-21">Oct 21</time></div>
+      <div class="wb-lec is-soon" data-n="18"><span class="wb-lec-num">L18</span><span class="wb-lec-title">Parameters and return values</span><time class="wb-lec-date" datetime="2026-10-23">Oct 23</time></div>
+      <div class="wb-lec is-soon" data-n="19"><span class="wb-lec-num">L19</span><span class="wb-lec-title">Argument styles, <code>main()</code>, the call stack</span><time class="wb-lec-date" datetime="2026-10-26">Oct 26</time></div>
+      <div class="wb-lec is-soon" data-n="20"><span class="wb-lec-num">L20</span><span class="wb-lec-title">Stepwise refinement and scope</span><time class="wb-lec-date" datetime="2026-10-28">Oct 28</time></div>
+    </section>
+    <section class="wb-unit" id="unit-6" aria-labelledby="unit-6-h">
+      <h2 id="unit-6-h"><span class="wb-unit-num">Unit 6</span>Recursion</h2>
+      <div class="wb-lec is-soon" data-n="21"><span class="wb-lec-num">L21</span><span class="wb-lec-title">The recursive idea; base cases</span><time class="wb-lec-date" datetime="2026-10-30">Oct 30</time></div>
+      <div class="wb-lec is-soon" data-n="22"><span class="wb-lec-num">L22</span><span class="wb-lec-title">Tracing recursion; recursive helpers</span><time class="wb-lec-date" datetime="2026-11-02">Nov 2</time></div>
+      <div class="wb-lec is-soon" data-n="23"><span class="wb-lec-num">L23</span><span class="wb-lec-title">Recursion vs iteration; Towers of Hanoi</span><time class="wb-lec-date" datetime="2026-11-04">Nov 4</time></div>
+    </section>
+    <section class="wb-unit" id="unit-7" aria-labelledby="unit-7-h">
+      <h2 id="unit-7-h"><span class="wb-unit-num">Unit 7</span>Lists, searching and sorting</h2>
+      <div class="wb-lec is-soon" data-n="24"><span class="wb-lec-num">L24</span><span class="wb-lec-title">Lists: properties and operations</span><time class="wb-lec-date" datetime="2026-11-06">Nov 6</time></div>
+      <div class="wb-lec is-soon" data-n="25"><span class="wb-lec-num">L25</span><span class="wb-lec-title">List algorithms, slices, comprehensions</span><time class="wb-lec-date" datetime="2026-11-09">Nov 9</time></div>
+      <div class="wb-lec is-soon" data-n="26"><span class="wb-lec-num">L26</span><span class="wb-lec-title">Lists with functions; tables</span><time class="wb-lec-date" datetime="2026-11-13">Nov 13</time></div>
+      <div class="wb-lec is-soon" data-n="27"><span class="wb-lec-num">L27</span><span class="wb-lec-title">Linear and binary search</span><time class="wb-lec-date" datetime="2026-11-16">Nov 16</time></div>
+      <div class="wb-lec is-soon" data-n="28"><span class="wb-lec-num">L28</span><span class="wb-lec-title">Selection sort and merge sort</span><time class="wb-lec-date" datetime="2026-11-18">Nov 18</time></div>
+    </section>
+    <section class="wb-unit" id="unit-8" aria-labelledby="unit-8-h">
+      <h2 id="unit-8-h"><span class="wb-unit-num">Unit 8</span>Exceptions and files</h2>
+      <div class="wb-lec is-soon" data-n="29"><span class="wb-lec-num">L29</span><span class="wb-lec-title">Exceptions: what they are; <code>try</code> / <code>except</code></span><time class="wb-lec-date" datetime="2026-11-20">Nov 20</time></div>
+      <div class="wb-lec is-soon" data-n="30"><span class="wb-lec-num">L30</span><span class="wb-lec-title"><code>raise</code>, <code>else</code>, <code>finally</code>; reading tracebacks</span><time class="wb-lec-date" datetime="2026-11-23">Nov 23</time></div>
+      <div class="wb-lec is-soon" data-n="31"><span class="wb-lec-num">L31</span><span class="wb-lec-title">Input validation and robust programs</span><time class="wb-lec-date" datetime="2026-11-25">Nov 25</time></div>
+      <div class="wb-lec is-soon" data-n="32"><span class="wb-lec-num">L32</span><span class="wb-lec-title">Reading and writing text files</span><time class="wb-lec-date" datetime="2026-11-27">Nov 27</time></div>
+      <div class="wb-lec is-soon" data-n="33"><span class="wb-lec-num">L33</span><span class="wb-lec-title">Processing text; files that fail safely</span><time class="wb-lec-date" datetime="2026-11-30">Nov 30</time></div>
+    </section>
+    <section class="wb-unit" id="unit-9" aria-labelledby="unit-9-h">
+      <h2 id="unit-9-h"><span class="wb-unit-num">Unit 9</span>Collections, objects and review</h2>
+      <div class="wb-lec is-soon" data-n="34"><span class="wb-lec-num">L34</span><span class="wb-lec-title">Sets and dictionaries</span><time class="wb-lec-date" datetime="2026-12-02">Dec 2</time></div>
+      <div class="wb-lec is-soon" data-n="35"><span class="wb-lec-num">L35</span><span class="wb-lec-title">Objects and classes</span><time class="wb-lec-date" datetime="2026-12-04">Dec 4</time></div>
+      <div class="wb-lec is-soon" data-n="36"><span class="wb-lec-num">L36</span><span class="wb-lec-title">Course review</span><time class="wb-lec-date" datetime="2026-12-07">Dec 7</time></div>
+    </section>
+    </div>
+
+    <div class="wb-side">
+      <section class="wb-panel" aria-labelledby="progress-h">
+        <h2 id="progress-h">Your progress</h2>
+        <div class="wb-stats">
+          <div class="wb-stat"><b id="xp">0</b><span>XP</span></div>
+          <div class="wb-stat"><b id="done">0 / 0</b><span>Questions done</span></div>
+        </div>
+        <span class="wb-progress-track"><span class="wb-progress-fill" id="fill"></span></span>
+        <p class="wb-quiet" id="touched">Saved in this browser.</p>
+      </section>
+
+      <section class="wb-panel" aria-labelledby="dates-h">
+        <h2 id="dates-h">Key dates</h2>
+        <ul class="wb-dates">
+          <li><div><b>Term Test 1</b><small>Lectures 1 to 13, in your lab slot</small></div><time datetime="2026-10-15">Thu Oct 15</time></li>
+          <li><div><b>Term Test 2</b><small>Lectures 1 to 23, in your lab slot</small></div><time datetime="2026-11-10">Tue Nov 10</time></li>
+          <li><div><b>Last day to drop</b></div><time datetime="2026-11-04">Wed Nov 4</time></li>
+          <li><div><b>Final examination</b><small>Registrar-scheduled</small></div><time datetime="2026-12-10">Dec 10 to 18</time></li>
+        </ul>
+        <p class="wb-quiet">Full schedule, marks and policies: <a href="./workbooks/lecture-01/index.html">Lecture 1 workbook</a>.</p>
+      </section>
+
+      <section class="wb-panel" aria-labelledby="tools-h">
+        <h2 id="tools-h">Tools</h2>
+        <a class="wb-big" href="./lab/index.html">PyLab</a>
+        <p class="wb-quiet">A full-screen Python editor with files and interactive <code>input()</code>. Use it for lab work and experiments.</p>
+      </section>
+    </div>
   </div>
 
-  <h2 id="tools">Tools</h2>
-  <div class="wb-cards">
-    <a class="wb-card" href="./lab/index.html"><strong>PyLab</strong><span>A full-screen Python editor with files and interactive <code>input()</code></span></a>
-  </div>
-
-  <p class="wb-meta">Python runs locally in your browser (Pyodide). Nothing you type is sent anywhere. <button id="theme-toggle" class="wb-btn wb-btn-quiet" type="button">◐ Toggle light / dark</button></p>
+  <p class="wb-foot">Python runs locally in your browser (Pyodide). Nothing you type is sent anywhere. Progress and XP are saved in this browser; the ⋯ menu inside a workbook exports and imports them.</p>
 </main>
 </body>
 </html>
