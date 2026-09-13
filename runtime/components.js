@@ -83,6 +83,11 @@ function labUrl(code) {
   return `${LAB_URL}#code=${encodeURIComponent(encodeBase64(code))}`;
 }
 
+/** Python Tutor's embeddable visualizer, with the program in the URL fragment. */
+function tutorUrl(code) {
+  return `https://pythontutor.com/iframe-embed.html#code=${encodeURIComponent(code)}&codeDivHeight=400&codeDivWidth=350&curInstr=0&origin=opt-frontend.js&py=311`;
+}
+
 /** Last "main.py" line number mentioned in a traceback, or null. */
 function errorLineFromTraceback(stderr) {
   const matches = [...String(stderr).matchAll(/File "main\.py", line (\d+)/g)];
@@ -153,12 +158,14 @@ class WorkbookElement extends HTMLElement {
 
 // ------------------------------------------------------- runnable widgets
 
-/** Shared editor + console + Run/Stop plumbing for examples and exercises. */
+/** Shared editor + console + Run / Visualize plumbing for examples and exercises. */
 class RunnableElement extends WorkbookElement {
   buildRunner({ code, readOnly, minLines, maxLines, onChange }) {
     this.editorHost = h("div");
     this.runButton = button("▶ Run", () => this.runInteractive(), { class: "wb-btn-primary" });
-    this.stopButton = button("■ Stop", () => this.stopRun(), { class: "wb-btn-danger", hidden: true });
+    // Python Tutor cannot see extra modules, so single-file programs only.
+    this.tutorButton = button("Visualize", () => this.visualize(), { class: "wb-btn-quiet", title: "Step through this program on pythontutor.com", hidden: (this.spec.files ?? []).length > 0 });
+    this.tutorPanel = h("div", { class: "wb-tutor", hidden: true });
     this.statusLabel = h("span", { class: "wb-runner-status" });
     this.consoleTitle = h("div", { class: "wb-console-title" }, "Output");
     this.consoleHost = h("div");
@@ -180,39 +187,67 @@ class RunnableElement extends WorkbookElement {
   setBusy(flag) {
     this.busy = flag;
     this.classList.toggle("is-running", flag);
-    this.runButton.hidden = flag;
-    this.stopButton.hidden = !flag;
+    this.runButton.title = flag ? "Start the program again from the top" : "";
     for (const b of this.querySelectorAll("[data-disable-while-running]")) b.disabled = flag;
   }
 
+  /** Run the program; pressing Run while it is still going (for example at an input() prompt) starts it over. */
   async runInteractive() {
-    if (this.busy) return;
+    if (this.busy) {
+      this.stopRun();
+      await this.running;
+    }
     await this.editorReady;
     this.setBusy(true);
     this.editor.clearErrorLine();
     this.console.clear();
     this.consoleTitle.textContent = "Output";
     this.abort = new AbortController();
-    try {
-      const result = await runInteractive({ files: this.files, entry: "main.py", console: this.console, signal: this.abort.signal });
-      if (result.status === "error") {
-        const line = errorLineFromTraceback(result.stderr);
-        if (line) this.editor.markErrorLine(line);
-      } else if (this.console.isEmpty) {
-        this.console.note("(The program finished without printing anything.)");
+    this.running = (async () => {
+      try {
+        const result = await runInteractive({ files: this.files, entry: "main.py", console: this.console, signal: this.abort.signal });
+        if (result.status === "error") {
+          const line = errorLineFromTraceback(result.stderr);
+          if (line) this.editor.markErrorLine(line);
+        } else if (this.console.isEmpty) {
+          this.console.note("(The program finished without printing anything.)");
+        }
+      } catch (error) {
+        if (error.name === "AbortError" || error instanceof StoppedError) this.console.note("\nStopped.");
+        else this.console.error("\n" + describeRunFailure(error));
+      } finally {
+        this.abort = null;
+        this.running = null;
+        this.setBusy(false);
       }
-    } catch (error) {
-      if (error.name === "AbortError" || error instanceof StoppedError) this.console.note("\nStopped.");
-      else this.console.error("\n" + describeRunFailure(error));
-    } finally {
-      this.abort = null;
-      this.setBusy(false);
-    }
+    })();
+    await this.running;
   }
 
   stopRun() {
     this.abort?.abort();
     runner.stop();
+  }
+
+  /** Show the whole program in an embedded Python Tutor below the console; click again after editing to refresh it. */
+  async visualize() {
+    await this.editorReady;
+    const src = tutorUrl(this.editor.getValue());
+    if (this.tutorPanel.hidden) {
+      const close = button("Close", () => { this.tutorPanel.hidden = true; this.tutorPanel.replaceChildren(); }, { class: "wb-btn-quiet" });
+      this.tutorFrame = h("iframe", { src, title: "Python Tutor", loading: "lazy" });
+      this.tutorPanel.replaceChildren(
+        h("div", { class: "wb-tutor-head" },
+          h("span", { class: "wb-console-title" }, "Python Tutor"),
+          h("span", { class: "wb-tutor-note" }, "Step through the program one line at a time. Runs on pythontutor.com; input() and very long programs may not work there."),
+          h("span", { class: "wb-spacer" }), close),
+        this.tutorFrame,
+      );
+      this.tutorPanel.hidden = false;
+    } else {
+      this.tutorFrame.src = src;
+    }
+    this.tutorPanel.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
   addExpandToggle(toolbar) {
@@ -252,7 +287,7 @@ class ExampleElement extends RunnableElement {
     const resetButton = button("Restore original", () => this.restore(), { class: "wb-btn-quiet", hidden: true });
     this.resetButton = resetButton;
     const toolbar = h("div", { class: "wb-toolbar" },
-      this.runButton, this.stopButton, this.statusLabel,
+      this.runButton, this.tutorButton, this.statusLabel,
       h("span", { class: "wb-spacer" }),
       resetButton,
       h("a", { class: "wb-btn wb-btn-quiet", href: labUrl(spec.code), target: "_blank", rel: "noopener", onclick: (e) => { e.currentTarget.href = labUrl(this.editor?.getValue() ?? spec.code); } }, "Open in PyLab"),
@@ -267,7 +302,7 @@ class ExampleElement extends RunnableElement {
     }
     this.append(
       h("div", { class: "wb-widget-head" }, h("span", { class: "wb-widget-label" }, spec.title ?? "Example")),
-      this.editorHost, toolbar, this.consoleWrap,
+      this.editorHost, toolbar, this.consoleWrap, this.tutorPanel,
     );
   }
 
@@ -307,7 +342,7 @@ class ExerciseElement extends RunnableElement {
     this.revealButton = button("", () => this.reveal(), { class: "wb-btn-quiet wb-btn-reveal", hidden: !spec.answer });
 
     const toolbar = h("div", { class: "wb-toolbar" },
-      this.runButton, this.stopButton, this.checkButton, this.statusLabel,
+      this.runButton, this.tutorButton, this.checkButton, this.statusLabel,
       h("span", { class: "wb-spacer" }),
       button("Reset", () => this.reset(), { class: "wb-btn-quiet", title: "Back to the starter code" }),
       this.revealButton,
@@ -319,7 +354,7 @@ class ExerciseElement extends RunnableElement {
       h("div", { class: "wb-widget-head" },
         h("span", { class: "wb-widget-label" }, spec.title ?? "Your code"),
         this.statusPill, this.badge),
-      this.editorHost, toolbar, this.consoleWrap, this.resultPanel, this.answerPanel,
+      this.editorHost, toolbar, this.consoleWrap, this.tutorPanel, this.resultPanel, this.answerPanel,
     );
     this.consoleWrap.hidden = true;
     this.refreshState();
