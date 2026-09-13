@@ -6,7 +6,7 @@ practice problems are checked as you work, and correct answers earn XP that
 can be spent to reveal model answers. Python runs locally in the page
 (Pyodide in a Web Worker); there is no server and nothing is uploaded.
 
-**Live site:** <https://pranjal-mun.github.io/pylab-workbooks/>
+**Live site:** <https://pranjal-mun.github.io/comp1001-workbooks/>
 
 ## Run locally
 
