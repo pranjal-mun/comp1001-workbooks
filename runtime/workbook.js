@@ -13,12 +13,22 @@ import { runner } from "./runner.js";
 import { defineComponents, toast } from "./components.js";
 import { initTheme } from "./theme.js";
 import { initPresentation } from "./present.js";
+import { revealPage } from "./page.js";
+import { lectureFor, isOpen, fmtOpens } from "./schedule.js";
+import { initInstructor, isInstructor, instructorBadge } from "./instructor.js";
 
 const LOGO_URL = new URL("./img/mun-logo.svg", import.meta.url).href;
 const HOME_URL = new URL("../index.html", import.meta.url).href;
 
 export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", title }) {
   initTheme();
+  initInstructor();
+  const entry = lectureFor(id);
+  if (entry && !isOpen(entry) && !isInstructor()) {
+    renderLocked(entry);
+    revealPage();
+    return;
+  }
   const response = await fetch(specsUrl);
   if (!response.ok) throw new Error(`Could not load ${specsUrl}: ${response.status}`);
   const data = await response.json();
@@ -30,6 +40,7 @@ export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", t
   buildTopBar({ title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
   buildContents(progress);
   initPresentation();
+  revealPage();
   runner.warmUp();
   // Widgets grow as they initialise, so a #section link needs a second jump.
   if (location.hash) setTimeout(() => document.getElementById(location.hash.slice(1))?.scrollIntoView(), 300);
@@ -91,9 +102,9 @@ function buildTopBar({ title, subtitle, progress, exerciseIds }) {
   document.addEventListener("click", (e) => { if (!menu.contains(e.target)) menu.open = false; });
 
   const topbar = el("header", { class: "wb-topbar" },
-    el("a", { class: "wb-btn wb-btn-quiet wb-topbar-home", href: HOME_URL, title: "All workbooks", "aria-label": "Home" }, "🏠"),
     el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
     el("div", { class: "wb-topbar-title" }, el("strong", {}, title), subtitle ? el("span", {}, subtitle) : null),
+    instructorBadge(),
     el("span", { class: "wb-spacer" }),
     status, exerciseIds.length ? progressBox : null, xpBadge,
     el("button", { type: "button", class: "wb-btn wb-btn-quiet wb-theme-toggle", title: "Toggle light / dark", onclick: () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")) }, "◐"),
@@ -132,6 +143,29 @@ function resetWorkbook(progress) {
   if (!window.confirm("Clear all saved work and check marks for this workbook? Your XP balance is kept.")) return;
   progress.resetAll();
   location.reload();
+}
+
+// -------------------------------------------------------------- locked
+
+/** Replace the page with a notice until the lecture's workbook opens. */
+function renderLocked(entry) {
+  document.title = `COMP 1001 – Lecture ${entry.n} Workbook`;
+  const main = document.querySelector("main");
+  if (main) main.hidden = true;
+  const notice = el("main", { class: "wb-locked" },
+    el("div", { class: "wb-course" }, "COMP 1001: Introduction to Programming"),
+    el("h1", {}, `Lecture ${entry.n} Workbook`),
+    el("p", { class: "wb-locked-when" }, `Opens ${fmtOpens(entry)}`),
+    el("p", {}, "Workbooks unlock on the day of the lecture. Until then, keep working on the earlier ones."),
+    el("a", { class: "wb-btn", href: HOME_URL }, "All workbooks"),
+  );
+  document.body.append(notice);
+  document.body.prepend(el("header", { class: "wb-topbar" },
+    el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
+    el("div", { class: "wb-topbar-title" }, el("strong", {}, `Lecture ${entry.n} Workbook`), el("span", {}, "Not open yet")),
+    el("span", { class: "wb-spacer" }),
+    el("button", { class: "wb-btn wb-btn-quiet wb-theme-toggle", type: "button", title: "Toggle light / dark", onclick: () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")) }, "◐"),
+  ));
 }
 
 // ------------------------------------------------------------ contents

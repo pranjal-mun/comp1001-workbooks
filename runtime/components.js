@@ -13,6 +13,7 @@ import { Console } from "./console.js";
 import { runner, runInteractive, StoppedError, TimeoutError } from "./runner.js";
 import { runCases, matchAnswer } from "./grader.js";
 import { xp } from "./xp.js";
+import { isInstructor } from "./instructor.js";
 
 const LAB_URL = new URL("../lab/index.html", import.meta.url).href;
 
@@ -110,6 +111,7 @@ function xpBadge(amount, record) {
 function confirmReveal(id, cost) {
   const { progress } = context;
   if (progress.get(id).revealed) return true;
+  if (isInstructor()) return progress.reveal(id, 0);
   if (cost > 0 && !xp.canAfford(cost)) {
     toast(`You need ${cost} XP to see this answer (you have ${xp.balance}).`, "warn");
     return false;
@@ -332,7 +334,7 @@ class ExerciseElement extends RunnableElement {
     this.statusPill.textContent = record.passed ? "✓ Correct" : "";
     this.statusPill.className = "wb-status-pill" + (record.passed ? " is-good" : "");
     const cost = record.revealed ? 0 : this.spec.xp ?? 5;
-    this.revealButton.textContent = record.revealed ? "Answer shown" : `Show answer (−${cost} XP)`;
+    this.revealButton.textContent = record.revealed ? "Answer shown" : isInstructor() ? "Show answer" : `Show answer (−${cost} XP)`;
     this.revealButton.disabled = Boolean(record.revealed);
   }
 
@@ -509,7 +511,7 @@ class TableElement extends WorkbookElement {
     this.statusPill.textContent = record.passed ? "✓ All correct" : "";
     this.statusPill.className = "wb-status-pill" + (record.passed ? " is-good" : "");
     const cost = this.remainingCost;
-    this.revealButton.textContent = record.revealed ? "Answers shown" : `Show answers (−${cost} XP)`;
+    this.revealButton.textContent = record.revealed ? "Answers shown" : isInstructor() ? "Show answers" : `Show answers (−${cost} XP)`;
     this.revealButton.disabled = Boolean(record.revealed);
   }
 
@@ -636,7 +638,7 @@ class ShortElement extends WorkbookElement {
     this.compareButton.hidden = Boolean(record.compared || record.revealed);
     this.hint.textContent = record.compared || record.revealed ? "" : ready ? "" : `Write at least ${this.minChars} characters, then compare.`;
     this.revealButton.hidden = Boolean(record.compared || record.revealed);
-    this.revealButton.textContent = `Skip and show answer (−${this.amount} XP)`;
+    this.revealButton.textContent = isInstructor() ? "Show answer" : `Skip and show answer (−${this.amount} XP)`;
     this.selfCheck.hidden = !(record.compared && !record.passed && !record.revealed);
   }
 

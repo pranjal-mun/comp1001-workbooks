@@ -100,6 +100,42 @@
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
+/* Before the theme script runs there is no data-theme yet; follow the OS so a
+   dark-mode visitor does not see a light flash. Same tokens as above. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --paper: #1A1718;
+    --panel: #231F20;
+    --panel-deep: #2E292A;
+    --ink: #F1EEEA;
+    --ink-quiet: #A59C94;
+    --rule: #4A4446;
+    --rule-soft: #322D2E;
+    --rule-strong: #8C8279;
+    --accent: #E28C9B;
+    --accent-deep: #F0B3BE;
+    --accent-fill: #9C2E3D;
+    --on-accent: #FFFFFF;
+    --accent-wash: rgba(226, 140, 155, 0.10);
+    --answer: #F0B3BE;
+    --good-ink: #33D1B6;
+    --good-wash: rgba(0, 179, 152, 0.16);
+    --warn-ink: #FFC94D;
+    --warn-wash: rgba(255, 184, 28, 0.14);
+    --bad-ink: #FF6B80;
+    --bad-wash: rgba(228, 0, 43, 0.16);
+    --code-keyword: #E28C9B;
+    --code-type: #F1EEEA;
+    --code-method: #8FB5FF;
+    --code-ident: #F1EEEA;
+    --code-string: #4FD1B8;
+    --code-comment: #A59C94;
+    --code-number: #FFC94D;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+}
+
 /* Reversed-out logo (white "UNIVERSITY") on dark backgrounds, as the brand
    standards allow when Cool Grey 10 would not show clearly. */
 :root[data-theme="dark"] img[src$="mun-logo.svg"] { content: url("img/mun-logo-dark.svg"); }
@@ -122,6 +158,12 @@ body {
 }
 
 body.wb-has-expanded { overflow: hidden; }
+
+/* Hidden until the page's script calls revealPage() (runtime/page.js), so the
+   top bar, contents, and fonts do not jump into place after the first paint.
+   The animation shows the page anyway if the script never runs. */
+body:not(.wb-ready) { visibility: hidden; animation: wb-reveal 0s 2s forwards; }
+@keyframes wb-reveal { to { visibility: visible; } }
 
 main {
   max-width: 52rem;
@@ -283,7 +325,16 @@ main .wb-table-wrap { overflow-x: auto; }
   font-family: var(--font-sans);
   font-size: 0.85rem;
 }
-.wb-topbar-home { padding: 0.2rem 0.45rem; font-size: 0.95rem; line-height: 1; text-decoration: none; }
+.wb-instructor-badge { font-family: var(--font-sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warn-ink); background: var(--warn-wash); border: 1px solid transparent; border-radius: 999px; padding: 0.2rem 0.6rem; cursor: pointer; }
+.wb-instructor-badge:hover { border-color: var(--warn-ink); }
+
+.wb-locked { max-width: 34rem; margin: 4rem auto; padding: 0 1.5rem; text-align: center; font-family: var(--font-sans); }
+.wb-locked .wb-course { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.wb-locked h1 { font-size: 2rem; margin: 0.3rem 0 0.6rem; }
+.wb-locked-when { font-size: 1.15rem; font-weight: 600; margin: 0 0 0.6rem; }
+.wb-locked p { color: var(--ink-quiet); }
+.wb-locked .wb-btn { display: inline-block; margin-top: 1rem; text-decoration: none; }
+
 .wb-topbar-brand img { height: 2.1rem; display: block; }
 .wb-topbar-title { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
 .wb-topbar-title strong { color: var(--ink); font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

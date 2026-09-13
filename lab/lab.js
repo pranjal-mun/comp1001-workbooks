@@ -5,6 +5,7 @@ import { createEditor } from "../runtime/editor.js";
 import { Console } from "../runtime/console.js";
 import { runner, runInteractive, StoppedError, TimeoutError } from "../runtime/runner.js";
 import { initTheme } from "../runtime/theme.js";
+import { revealPage } from "../runtime/page.js";
 import { decodeBase64 } from "../runtime/components.js";
 
 const STORAGE_KEY = "pylab-workbooks:lab-project";
@@ -33,6 +34,7 @@ editor.cm.setOption("extraKeys", { ...editor.cm.getOption("extraKeys"), "Ctrl-En
 loadFromHash();
 renderFiles();
 updateControls();
+revealPage();
 
 runner.onStatus((state, text) => {
   els.status.textContent = state === "ready" ? "Python ready" : text;
