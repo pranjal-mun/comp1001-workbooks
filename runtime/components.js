@@ -1,7 +1,7 @@
 // Workbook widgets. Each tag looks up its spec by id in the workbook's
 // exercises.json (handed over by workbook.js through defineComponents).
 //
-//   <wb-example id="…">   read-only teaching code with ▶ Run and "Edit a copy"
+//   <wb-example id="…">   editable teaching code with ▶ Run and "Restore original"
 //   <wb-exercise id="…">  coding task: editor, Run, Check, XP, model answer
 //   <wb-table id="…">     an HTML table whose [data-blank] cells become inputs
 //   <wb-short id="…">     written answer compared against a model answer
@@ -241,17 +241,18 @@ class ExampleElement extends RunnableElement {
   render() {
     const spec = this.spec;
     this.maxLines = spec.maxLines ?? 30;
-    this.buildRunner({ code: spec.code, readOnly: true, minLines: 1, maxLines: this.maxLines });
+    this.buildRunner({
+      code: spec.code, readOnly: false, minLines: 1, maxLines: this.maxLines,
+      onChange: (value) => { this.resetButton.hidden = value === spec.code; },
+    });
     this.classList.add("wb-example");
 
-    const editButton = button("Edit a copy", () => this.startEditing(), { class: "wb-btn-quiet" });
     const resetButton = button("Restore original", () => this.restore(), { class: "wb-btn-quiet", hidden: true });
-    this.editButton = editButton;
     this.resetButton = resetButton;
     const toolbar = h("div", { class: "wb-toolbar" },
       this.runButton, this.stopButton, this.statusLabel,
       h("span", { class: "wb-spacer" }),
-      editButton, resetButton,
+      resetButton,
       h("a", { class: "wb-btn wb-btn-quiet", href: labUrl(spec.code), target: "_blank", rel: "noopener", onclick: (e) => { e.currentTarget.href = labUrl(this.editor?.getValue() ?? spec.code); } }, "Open in PyLab"),
     );
     this.addExpandToggle(toolbar);
@@ -273,20 +274,8 @@ class ExampleElement extends RunnableElement {
     await super.runInteractive();
   }
 
-  async startEditing() {
-    await this.editorReady;
-    this.editor.setReadOnly(false);
-    this.classList.add("is-editing");
-    this.editButton.hidden = true;
-    this.resetButton.hidden = false;
-    this.editor.focus();
-  }
-
   restore() {
     this.editor.setValue(this.spec.code);
-    this.editor.setReadOnly(true);
-    this.classList.remove("is-editing");
-    this.editButton.hidden = false;
     this.resetButton.hidden = true;
   }
 }

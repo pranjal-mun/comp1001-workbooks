@@ -483,7 +483,6 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-editor .CodeMirror-focused .CodeMirror-selected { background: color-mix(in srgb, var(--accent) 22%, transparent); }
 .wb-editor .CodeMirror-matchingbracket { outline: 1px solid var(--rule-strong); color: inherit !important; }
 .wb-editor .wb-error-line { background: var(--bad-wash); }
-.wb-example:not(.is-editing) .CodeMirror-cursor { display: none; }
 
 .cm-s-workbook .cm-keyword { color: var(--code-keyword); font-weight: 600; }
 .cm-s-workbook .cm-builtin { color: var(--code-method); }
