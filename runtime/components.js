@@ -83,10 +83,17 @@ function labUrl(code) {
   return `${LAB_URL}#code=${encodeURIComponent(encodeBase64(code))}`;
 }
 
-/** Python Tutor's embeddable visualizer, with the program in the URL fragment. */
-function tutorUrl(code) {
+/** True when the program reads from the keyboard, so Python Tutor needs the answers up front. */
+function usesInput(code) {
+  return /\binput\s*\(/.test(code);
+}
+
+/** Python Tutor's embeddable visualizer, with the program (and any input() answers) in the URL fragment. */
+function tutorUrl(code, inputs = []) {
   const codeDivHeight = Math.min(400, Math.max(60, 22 * code.split("\n").length + 20));
-  return `https://pythontutor.com/iframe-embed.html#code=${encodeURIComponent(code)}&codeDivHeight=${codeDivHeight}&codeDivWidth=350&curInstr=0&origin=opt-frontend.js&py=311`;
+  // Without rawInputLstJSON the embed stops at the first input() and sends the student to pythontutor.com.
+  const answers = inputs.length ? `&rawInputLstJSON=${encodeURIComponent(JSON.stringify(inputs))}` : "";
+  return `https://pythontutor.com/iframe-embed.html#code=${encodeURIComponent(code)}&codeDivHeight=${codeDivHeight}&codeDivWidth=350&curInstr=0&origin=opt-frontend.js&py=311${answers}`;
 }
 
 /** Starting height of the Python Tutor frame: short programs get a short frame. */
@@ -239,22 +246,60 @@ class RunnableElement extends WorkbookElement {
   async visualize() {
     if (!this.tutorPanel.hidden) { this.closeVisualizer(); return; }
     await this.editorReady;
+    this.tutorPanel.hidden = false;
+    this.tutorButton.textContent = "Hide visualizer";
+    this.loadVisualizer();
+    this.tutorPanel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  /** Fill the panel from the current editor contents: a form for the input() answers first when the program needs them. */
+  loadVisualizer() {
     const code = this.editor.getValue();
-    const frame = h("iframe", { src: tutorUrl(code), title: "Python Tutor" });
+    if (usesInput(code)) this.askTutorInputs(code);
+    else this.showTutorFrame(code, []);
+  }
+
+  /** Python Tutor cannot pause at input(), so the answers are typed here, one per line, before the trace is made. */
+  askTutorInputs(code) {
+    const previous = this.tutorInputs ?? (this.spec.cases ?? []).find((c) => c.inputs?.length)?.inputs ?? [];
+    const field = h("textarea", { class: "wb-tutor-inputs", rows: Math.max(2, previous.length + 1), spellcheck: "false", "aria-label": "Answers for input(), one per line" });
+    field.value = previous.join("\n");
+    const go = () => {
+      const lines = field.value.split("\n");
+      while (lines.length && lines.at(-1) === "") lines.pop();
+      this.tutorInputs = lines;
+      this.showTutorFrame(code, lines);
+    };
+    field.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); go(); } });
+    this.tutorPanel.replaceChildren(
+      this.tutorHead("This program reads input, and Python Tutor needs every answer before it starts. Type what you would answer at each prompt, one answer per line.",
+        button("✕ Close", () => this.closeVisualizer(), { class: "wb-btn-quiet" })),
+      h("div", { class: "wb-tutor-form" },
+        field,
+        button("Visualize with these answers", go, { class: "wb-btn-primary", title: "Cmd+Enter or Ctrl+Enter" })),
+    );
+    field.focus();
+  }
+
+  showTutorFrame(code, inputs) {
+    const frame = h("iframe", { src: tutorUrl(code, inputs), title: "Python Tutor" });
     // Room for the code plus Python Tutor's slider, output box, and frames; the student can drag it taller.
     const box = h("div", { class: "wb-tutor-box", style: `height: ${tutorHeight(code)}px` }, frame);
+    const reloadLabel = inputs.length ? "↻ Reload code or answers" : "↻ Reload code";
     this.tutorPanel.replaceChildren(
-      h("div", { class: "wb-tutor-head" },
-        h("span", { class: "wb-console-title" }, "Python Tutor"),
-        h("span", { class: "wb-tutor-note" }, "Step through the program one line at a time on pythontutor.com. Drag the bottom edge to resize."),
-        h("span", { class: "wb-spacer" }),
-        button("↻ Reload code", () => { frame.src = tutorUrl(this.editor.getValue()); }, { class: "wb-btn-quiet", title: "Send the current editor contents to Python Tutor" }),
+      this.tutorHead("Step through the program one line at a time on pythontutor.com. Drag the bottom edge to resize.",
+        button(reloadLabel, () => this.loadVisualizer(), { class: "wb-btn-quiet", title: "Send the current editor contents to Python Tutor" }),
         button("✕ Close", () => this.closeVisualizer(), { class: "wb-btn-quiet" })),
       box,
     );
-    this.tutorPanel.hidden = false;
-    this.tutorButton.textContent = "Hide visualizer";
-    this.tutorPanel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  tutorHead(note, ...buttons) {
+    return h("div", { class: "wb-tutor-head" },
+      h("span", { class: "wb-console-title" }, "Python Tutor"),
+      h("span", { class: "wb-tutor-note" }, note),
+      h("span", { class: "wb-spacer" }),
+      ...buttons);
   }
 
   closeVisualizer() {
