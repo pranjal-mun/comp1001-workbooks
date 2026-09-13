@@ -94,7 +94,7 @@ function buildTopBar({ title, subtitle, progress, exerciseIds }) {
     el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
     el("div", { class: "wb-topbar-title" }, el("strong", {}, title), subtitle ? el("span", {}, subtitle) : null),
     el("span", { class: "wb-spacer" }),
-    status, progressBox, xpBadge,
+    status, exerciseIds.length ? progressBox : null, xpBadge,
     el("button", { type: "button", class: "wb-btn wb-btn-quiet wb-theme-toggle", title: "Toggle light / dark", onclick: () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")) }, "◐"),
     menu,
   );
