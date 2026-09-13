@@ -34,7 +34,7 @@
     <li>identify IDLE's editor and Shell, and describe how to open, save and run a supplied script.</li>
   </ul>
   <p><strong>Reading:</strong> §1.4; review §1.7 and HT 1.1.</p>
-  <p class="wb-meta">The supplied Python script on this page is live: press <strong>▶ Run</strong> to execute it in your browser and answer its prompts. The Final Practice questions award XP when you complete them; XP can be spent to reveal a model answer.</p>
+  <p class="wb-meta">The supplied Python script on this page is live: press <strong>▶ Run</strong> to execute it in your browser and answer its prompts. There are no checked questions in this workbook: trace the method on paper, then run the script to compare.</p>
 </section>
 <hr>
 
@@ -328,75 +328,6 @@ Enter a whole number of people of at least 1</pre>
     <tr><td>Reflection</td><td>Explain the revision and the evidence that supports it.</td></tr>
   </tbody>
 </table>
-
-<h2 id="final-practice">Final Practice</h2>
-<p>All questions use the pizza agreement from this lecture. Describe methods in words, pseudocode or a flowchart as requested. No Python code writing is required.</p>
-
-<h3>1. The input rule</h3>
-<p>Explain what the method does for group sizes 1, 0 and 2.5. Why must this decision come before payment calculation?</p>
-<wb-short id="fp1"></wb-short>
-
-<h3>2. Trace a new group size</h3>
-<p>Use prices CA$25, CA$25 and CA$20, with agreed tip CA$8 and nine people. Record the total and tip in cents at every check. The first check starts from the initial bill.</p>
-<wb-table id="fp2-trace">
-  <table>
-    <thead><tr><th>Check</th><th>Total cents</th><th>Tip cents</th><th>Needs adjustment?</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td>10000</td><td>800</td><td data-blank="n1"></td></tr>
-      <tr><td>2</td><td data-blank="t2"></td><td data-blank="p2"></td><td data-blank="n2"></td></tr>
-      <tr><td>3</td><td data-blank="t3"></td><td data-blank="p3"></td><td data-blank="n3"></td></tr>
-      <tr><td>4</td><td data-blank="t4"></td><td data-blank="p4"></td><td data-blank="n4"></td></tr>
-      <tr><td>5</td><td data-blank="t5"></td><td data-blank="p5"></td><td data-blank="n5"></td></tr>
-      <tr><td>6</td><td data-blank="t6"></td><td data-blank="p6"></td><td data-blank="n6"></td></tr>
-      <tr><td>7</td><td data-blank="t7"></td><td data-blank="p7"></td><td data-blank="n7"></td></tr>
-      <tr><td>8</td><td data-blank="t8"></td><td data-blank="p8"></td><td data-blank="n8"></td></tr>
-      <tr><td>9</td><td data-blank="t9"></td><td data-blank="p9"></td><td data-blank="n9"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p>Report the final tip, total and each payment.</p>
-<wb-table id="fp2-final">
-  <table>
-    <thead><tr><th>Final tip</th><th>Final total</th><th>Each person</th></tr></thead>
-    <tbody>
-      <tr><td data-blank="tip"></td><td data-blank="total"></td><td data-blank="each"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p>Verify that the payments cover the bill.</p>
-<wb-short id="fp2-check"></wb-short>
-
-<h3>3. Write the adjustment in pseudocode</h3>
-<p>Assume the group size has passed its check. The total and tip are already in cents. Write the repeated adjustment and the final payment and reporting steps. Your method must work when no adjustment is needed and when more than one cent must be added. Check it using the original CA$100 bill with four and three people.</p>
-<wb-short id="fp3"></wb-short>
-
-<h3>4. Draw the repeated part</h3>
-<p>Draw a flowchart for the adjustment and reporting portion, starting with the decision “Does the total still need adjustment?” Label both exits. Show where each path goes and trace the original bill with three people through your chart.</p>
-<p>Draw the chart on paper. Then describe it here: name each shape and its label, say where the Yes and No exits go, and give the route your trace follows.</p>
-<wb-short id="fp4"></wb-short>
-
-<h3>5. Run and compare</h3>
-<p>Describe how to open, save and run the supplied script in IDLE. State where you enter its requested values and where you see the results.</p>
-<wb-short id="fp5-idle"></wb-short>
-<p>For prices <code>25 25 20</code>, tip <code>8</code> and people <code>4</code>, write the three result lines you expect, exactly as the program prints them.</p>
-<wb-table id="fp5-lines">
-  <table>
-    <thead><tr><th>Line</th><th>Expected output</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td data-blank="l1"></td></tr>
-      <tr><td>2</td><td data-blank="l2"></td></tr>
-      <tr><td>3</td><td data-blank="l3"></td></tr>
-    </tbody>
-  </table>
-</wb-table>
-<p>Then run the script with those values and compare.</p>
-<wb-example id="ex-pizza-run"></wb-example>
-<p>What calculation would you use to check the reported payment?</p>
-<wb-short id="fp5-check"></wb-short>
-
-<h3>6. Reflect on the representations</h3>
-<p>Explain what the algorithm, pseudocode, flowchart and supplied program each helped you see. Name the pizza rule that must remain the same in all four.</p>
-<wb-short id="fp6"></wb-short>
 
 </main>
 </body>
