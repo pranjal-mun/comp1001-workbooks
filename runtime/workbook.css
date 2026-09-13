@@ -68,7 +68,10 @@
   --font-ui: var(--font-sans);
 }
 
-:root[data-theme="dark"] {
+/* Dark is the default: it also applies before the theme script has run, so
+   there is no light flash. Light is only ever chosen with the toggle. */
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
   color-scheme: dark;
   --paper: #1A1718;
   --panel: #231F20;
@@ -100,45 +103,9 @@
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-/* Before the theme script runs there is no data-theme yet; follow the OS so a
-   dark-mode visitor does not see a light flash. Same tokens as above. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    color-scheme: dark;
-    --paper: #1A1718;
-    --panel: #231F20;
-    --panel-deep: #2E292A;
-    --ink: #F1EEEA;
-    --ink-quiet: #A59C94;
-    --rule: #4A4446;
-    --rule-soft: #322D2E;
-    --rule-strong: #8C8279;
-    --accent: #E28C9B;
-    --accent-deep: #F0B3BE;
-    --accent-fill: #9C2E3D;
-    --on-accent: #FFFFFF;
-    --accent-wash: rgba(226, 140, 155, 0.10);
-    --answer: #F0B3BE;
-    --good-ink: #33D1B6;
-    --good-wash: rgba(0, 179, 152, 0.16);
-    --warn-ink: #FFC94D;
-    --warn-wash: rgba(255, 184, 28, 0.14);
-    --bad-ink: #FF6B80;
-    --bad-wash: rgba(228, 0, 43, 0.16);
-    --code-keyword: #E28C9B;
-    --code-type: #F1EEEA;
-    --code-method: #8FB5FF;
-    --code-ident: #F1EEEA;
-    --code-string: #4FD1B8;
-    --code-comment: #A59C94;
-    --code-number: #FFC94D;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
-  }
-}
-
 /* Reversed-out logo (white "UNIVERSITY") on dark backgrounds, as the brand
    standards allow when Cool Grey 10 would not show clearly. */
-:root[data-theme="dark"] img[src$="mun-logo.svg"] { content: url("img/mun-logo-dark.svg"); }
+:root:not([data-theme="light"]) img[src$="mun-logo.svg"] { content: url("img/mun-logo-dark.svg"); }
 
 /* -------------------------------------------------------------- page */
 
@@ -548,6 +515,13 @@ main .wb-table-wrap { overflow-x: auto; }
 .cm-s-workbook .cm-operator { color: var(--ink); }
 .cm-s-workbook .cm-meta { color: var(--code-comment); }
 .cm-s-workbook .cm-error { color: var(--bad-ink); }
+
+/* Python Tutor panel (the Visualize button) under the console. */
+.wb-tutor { border-top: 1px solid var(--rule-soft); }
+.wb-tutor-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.35rem 0.85rem 0.45rem; }
+.wb-tutor-head .wb-console-title { padding: 0; }
+.wb-tutor-note { font-family: var(--font-ui); font-size: 0.8rem; color: var(--ink-quiet); }
+.wb-tutor iframe { display: block; width: 100%; height: 520px; border: 0; background: #fff; }
 
 /* Console: program output with inline input() prompts. */
 .wb-console-wrap { border-top: 1px solid var(--rule-soft); }
