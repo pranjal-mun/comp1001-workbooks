@@ -21,6 +21,7 @@ const DEFAULT_SCALE = 1.9;
 export function initPresentation() {
   const main = document.querySelector("main");
   if (!main) return;
+  sizeDiagramsInRem(main);
   const topics = collectTopics(main);
   if (!topics.length) return;
 
@@ -200,6 +201,19 @@ function stepScale(current, dir) {
   const next = SCALES[i];
   try { localStorage.setItem(SCALE_KEY, String(next)); } catch { /* ignore */ }
   return next;
+}
+
+/** Inline SVGs sized with a pixel width attribute would stay small while the text grows in
+ *  presentation mode; the same width in rem scales with everything else (text inside an SVG
+ *  with a viewBox scales with the drawing). */
+function sizeDiagramsInRem(main) {
+  for (const svg of main.querySelectorAll("svg[viewBox][width]")) {
+    const width = Number(svg.getAttribute("width"));
+    if (!width || svg.style.width) continue;
+    svg.style.width = `${width / 16}rem`;
+    svg.style.maxWidth = "100%";
+    svg.style.height = "auto";
+  }
 }
 
 function applyScale(scale, ui) {
