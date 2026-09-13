@@ -11,6 +11,7 @@ const SCRIPTS = [
   "mode/python/python.js",
   "addon/edit/matchbrackets.js",
   "addon/edit/closebrackets.js",
+  "addon/comment/comment.js",
 ];
 const STYLES = ["lib/codemirror.css"];
 
@@ -80,6 +81,9 @@ export async function createEditor(host, { value = "", readOnly = false, minLine
     extraKeys: {
       Tab: (editor) => editor.somethingSelected() ? editor.indentSelection("add") : editor.replaceSelection("    ", "end"),
       "Shift-Tab": (editor) => editor.indentSelection("subtract"),
+      // Comment or uncomment the current line, or every selected line.
+      "Cmd-/": "toggleComment",
+      "Ctrl-/": "toggleComment",
     },
   });
   const api = {
