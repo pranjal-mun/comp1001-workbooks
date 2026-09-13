@@ -521,7 +521,11 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-tutor-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.35rem 0.85rem 0.45rem; }
 .wb-tutor-head .wb-console-title { padding: 0; }
 .wb-tutor-note { font-family: var(--font-ui); font-size: 0.8rem; color: var(--ink-quiet); }
-.wb-tutor iframe { display: block; width: 100%; height: 520px; border: 0; background: #fff; }
+.wb-tutor-box { resize: vertical; overflow: hidden; min-height: 240px; max-height: 90vh; border-top: 1px solid var(--rule-soft); }
+.wb-tutor-box iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+/* Python Tutor has no dark theme and the frame is cross-origin, so invert it
+   and turn the hues back; the page's white becomes near-black. */
+:root:not([data-theme="light"]) .wb-tutor-box iframe { filter: invert(0.92) hue-rotate(180deg); }
 
 /* Console: program output with inline input() prompts. */
 .wb-console-wrap { border-top: 1px solid var(--rule-soft); }

@@ -85,7 +85,13 @@ function labUrl(code) {
 
 /** Python Tutor's embeddable visualizer, with the program in the URL fragment. */
 function tutorUrl(code) {
-  return `https://pythontutor.com/iframe-embed.html#code=${encodeURIComponent(code)}&codeDivHeight=400&codeDivWidth=350&curInstr=0&origin=opt-frontend.js&py=311`;
+  const codeDivHeight = Math.min(400, Math.max(60, 22 * code.split("\n").length + 20));
+  return `https://pythontutor.com/iframe-embed.html#code=${encodeURIComponent(code)}&codeDivHeight=${codeDivHeight}&codeDivWidth=350&curInstr=0&origin=opt-frontend.js&py=311`;
+}
+
+/** Starting height of the Python Tutor frame: short programs get a short frame. */
+function tutorHeight(code) {
+  return Math.min(600, Math.max(380, 22 * code.split("\n").length + 300));
 }
 
 /** Last "main.py" line number mentioned in a traceback, or null. */
@@ -229,25 +235,32 @@ class RunnableElement extends WorkbookElement {
     runner.stop();
   }
 
-  /** Show the whole program in an embedded Python Tutor below the console; click again after editing to refresh it. */
+  /** Show the whole program in an embedded Python Tutor below the console. The toolbar button toggles it. */
   async visualize() {
+    if (!this.tutorPanel.hidden) { this.closeVisualizer(); return; }
     await this.editorReady;
-    const src = tutorUrl(this.editor.getValue());
-    if (this.tutorPanel.hidden) {
-      const close = button("Close", () => { this.tutorPanel.hidden = true; this.tutorPanel.replaceChildren(); }, { class: "wb-btn-quiet" });
-      this.tutorFrame = h("iframe", { src, title: "Python Tutor", loading: "lazy" });
-      this.tutorPanel.replaceChildren(
-        h("div", { class: "wb-tutor-head" },
-          h("span", { class: "wb-console-title" }, "Python Tutor"),
-          h("span", { class: "wb-tutor-note" }, "Step through the program one line at a time. Runs on pythontutor.com; input() and very long programs may not work there."),
-          h("span", { class: "wb-spacer" }), close),
-        this.tutorFrame,
-      );
-      this.tutorPanel.hidden = false;
-    } else {
-      this.tutorFrame.src = src;
-    }
+    const code = this.editor.getValue();
+    const frame = h("iframe", { src: tutorUrl(code), title: "Python Tutor" });
+    // Room for the code plus Python Tutor's slider, output box, and frames; the student can drag it taller.
+    const box = h("div", { class: "wb-tutor-box", style: `height: ${tutorHeight(code)}px` }, frame);
+    this.tutorPanel.replaceChildren(
+      h("div", { class: "wb-tutor-head" },
+        h("span", { class: "wb-console-title" }, "Python Tutor"),
+        h("span", { class: "wb-tutor-note" }, "Step through the program one line at a time on pythontutor.com. Drag the bottom edge to resize."),
+        h("span", { class: "wb-spacer" }),
+        button("↻ Reload code", () => { frame.src = tutorUrl(this.editor.getValue()); }, { class: "wb-btn-quiet", title: "Send the current editor contents to Python Tutor" }),
+        button("✕ Close", () => this.closeVisualizer(), { class: "wb-btn-quiet" })),
+      box,
+    );
+    this.tutorPanel.hidden = false;
+    this.tutorButton.textContent = "Hide visualizer";
     this.tutorPanel.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }
+
+  closeVisualizer() {
+    this.tutorPanel.hidden = true;
+    this.tutorPanel.replaceChildren();
+    this.tutorButton.textContent = "Visualize";
   }
 
   addExpandToggle(toolbar) {
