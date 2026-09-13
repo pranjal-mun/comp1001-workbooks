@@ -550,7 +550,7 @@ class TableElement extends WorkbookElement {
       this.progress.markPassed(this.exerciseId);
     } else {
       this.summaryLine.className = "wb-result-summary is-bad";
-      this.summaryLine.textContent = `${right} of ${this.inputs.size} correct — the highlighted cells need another look.`;
+      this.summaryLine.textContent = `${right} of ${this.inputs.size} correct. The highlighted cells need another look.`;
     }
     if (added) toast(`+${added} XP`, "good");
     this.refreshState();
@@ -610,7 +610,7 @@ class ShortElement extends WorkbookElement {
     this.selfCheck = h("div", { class: "wb-self-check", hidden: true },
       h("span", {}, "Did your answer cover the same idea?"),
       button(`I got it (+${this.amount} XP)`, () => this.gotIt(), { class: "wb-btn-primary" }),
-      button("Not quite — I'll revisit", () => this.notQuite(), { class: "wb-btn-quiet" }),
+      button("Not quite, I'll revisit", () => this.notQuite(), { class: "wb-btn-quiet" }),
     );
 
     this.append(
@@ -672,7 +672,7 @@ class ShortElement extends WorkbookElement {
 
   notQuite() {
     this.selfCheck.hidden = true;
-    toast("No problem — reread the answer and come back to it.", "info");
+    toast("No problem. Reread the answer and come back to it.", "info");
   }
 }
 

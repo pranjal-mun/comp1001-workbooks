@@ -870,7 +870,7 @@
       "type": "short",
       "xp": 2,
       "rows": 9,
-      "placeholder": "score → grade — what it tests, one case per line",
+      "placeholder": "score → grade: what it tests, one case per line",
       "answer": "T25lIGNvbXBhY3Qgc2V0IGlzIDQ5L0YsIDUwL0QsIDU5L0QsIDYwL0MsIDY5L0MsIDcwL0IsIDc5L0IsIGFuZCA4MC9BLiBJdCBjaGVja3MgZWFjaCBib3VuZGFyeSBmcm9tIGJvdGggc2lkZXMgYW5kIHJlYWNoZXMgZXZlcnkgYnJhbmNoLiBBZGRpbmcgYSB2YWx1ZSBhYm92ZSA4MCwgc3VjaCBhcyA5NS9BLCBpcyBhbHNvIHVzZWZ1bC4="
     },
     "ex-admission": {
