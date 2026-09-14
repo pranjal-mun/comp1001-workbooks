@@ -1,12 +1,14 @@
 // The course schedule: units, lectures, their dates, and which workbooks are
 // posted. The landing page draws its dashboard from this, and a workbook
-// page stays locked until OPEN_HOUR on the day of its lecture (instructor
-// mode, see instructor.js, ignores the lock).
+// page stays locked until the previous lecture's class has ended, so students
+// can read one lecture ahead (instructor mode, see instructor.js, ignores the
+// lock).
 //
 // When a new workbook is finished, set its `built` flag here. That is the
 // only edit a lecture branch makes outside its own workbook folder.
 
-export const OPEN_HOUR = 10; // workbooks open at 10:00 local time on lecture day
+// Class ends at 10:50 local time; the next workbook opens then.
+export const CLASS_END = { hour: 10, minute: 50 };
 
 export const UNITS = [
   { n: 1, name: "Problem solving and a first program" },
@@ -79,10 +81,16 @@ export function lectureFor(id) {
   return m ? lecture(Number(m[1])) : null;
 }
 
-/** Local time at which the workbook for this lecture opens. */
+/**
+ * Local time at which the workbook for this lecture opens: the end of the
+ * previous lecture's class, so the upcoming workbook is always available.
+ * The first lecture opens at the start of its own day.
+ */
 export function opensAt(entry) {
-  const d = new Date(`${entry.date}T00:00:00`);
-  d.setHours(OPEN_HOUR, 0, 0, 0);
+  const prev = LECTURES.filter((l) => l.date < entry.date).pop();
+  if (!prev) return new Date(`${entry.date}T00:00:00`);
+  const d = new Date(`${prev.date}T00:00:00`);
+  d.setHours(CLASS_END.hour, CLASS_END.minute, 0, 0);
   return d;
 }
 
@@ -97,6 +105,7 @@ export function fmtDate(iso, { weekday = "short" } = {}) {
 
 export function fmtOpens(entry) {
   const t = opensAt(entry);
+  const date = t.toLocaleDateString("en-CA", { weekday: "short", month: "short", day: "numeric" });
   const time = t.toLocaleTimeString("en-CA", { hour: "numeric", minute: "2-digit" });
-  return `${fmtDate(entry.date)} at ${time}`;
+  return `${date} at ${time}`;
 }

@@ -88,7 +88,7 @@
     const at = (d) => new Date(d + "T00:00:00");
     const short = (d) => fmtDate(d, { weekday: null });
     const pageOf = (l) => `./workbooks/${workbookId(l.n)}/index.html`;
-    // A workbook can be opened when it is posted and its lecture day has come (instructors see everything).
+    // A workbook can be opened when it is posted and the previous lecture has ended (instructors see everything).
     const available = (l) => l.built && (instructor || isOpen(l, now));
     const h = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstElementChild; };
 
@@ -130,7 +130,7 @@
       else {
         big.removeAttribute("href");
         note.hidden = false;
-        note.textContent = next.built ? `This workbook opens ${fmtOpens(next)}` : "This workbook is not posted yet. It appears here on the day of the lecture.";
+        note.textContent = next.built ? `This workbook opens ${fmtOpens(next)}` : "This workbook is not posted yet. It appears here once the lecture before it ends.";
       }
       document.querySelector(`.wb-lec[data-n="${next.n}"]`)?.classList.add("is-next");
     } else {
