@@ -37,7 +37,7 @@ export async function initWorkbook({ id, specs: specsUrl = "./exercises.json", t
   const exerciseIds = [...document.querySelectorAll("wb-exercise[id], wb-table[id], wb-short[id]")].map((el) => el.id).filter((eid) => specs[eid]);
 
   defineComponents({ workbookId: id, specs, progress });
-  buildTopBar({ title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
+  buildTopBar({ id, title: title ?? data.title ?? document.title, subtitle: data.subtitle, progress, exerciseIds });
   buildContents(progress);
   initPresentation();
   revealPage();
@@ -60,7 +60,20 @@ function el(tag, attrs = {}, ...children) {
   return node;
 }
 
-function buildTopBar({ title, subtitle, progress, exerciseIds }) {
+/** "L02" for lecture-02: what the top bar shows instead of the full title on a phone. */
+function shortTitle(id, title) {
+  const m = /^lecture-(\d+)$/.exec(id ?? "");
+  return m ? `L${m[1].padStart(2, "0")}` : title;
+}
+
+function titleBlock(title, short, subtitle) {
+  return el("div", { class: "wb-topbar-title" },
+    el("strong", { class: "wb-topbar-title-full" }, title),
+    el("strong", { class: "wb-topbar-title-short", "aria-hidden": "true" }, short),
+    subtitle ? el("span", {}, subtitle) : null);
+}
+
+function buildTopBar({ id, title, subtitle, progress, exerciseIds }) {
   const xpValue = el("span", { class: "wb-topbar-xp-value" }, "0");
   const xpBadge = el("span", { class: "wb-topbar-xp", title: "XP: earn by answering correctly, spend to see answers" }, xpValue, " XP");
   xp.subscribe((balance, change) => {
@@ -103,7 +116,7 @@ function buildTopBar({ title, subtitle, progress, exerciseIds }) {
 
   const topbar = el("header", { class: "wb-topbar" },
     el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
-    el("div", { class: "wb-topbar-title" }, el("strong", {}, title), subtitle ? el("span", {}, subtitle) : null),
+    titleBlock(title, shortTitle(id, title), subtitle),
     instructorBadge(),
     el("span", { class: "wb-spacer" }),
     status, exerciseIds.length ? progressBox : null, xpBadge,
@@ -162,7 +175,7 @@ function renderLocked(entry) {
   document.body.append(notice);
   document.body.prepend(el("header", { class: "wb-topbar" },
     el("a", { class: "wb-topbar-brand", href: HOME_URL, title: "All workbooks" }, el("img", { src: LOGO_URL, alt: "Memorial University" })),
-    el("div", { class: "wb-topbar-title" }, el("strong", {}, `Lecture ${entry.n} Workbook`), el("span", {}, "Not open yet")),
+    titleBlock(`Lecture ${entry.n} Workbook`, `L${String(entry.n).padStart(2, "0")}`, "Not open yet"),
     el("span", { class: "wb-spacer" }),
     el("button", { class: "wb-btn wb-btn-quiet wb-theme-toggle", type: "button", title: "Toggle light / dark", onclick: () => document.dispatchEvent(new CustomEvent("wb:toggle-theme")) }, "◐"),
   ));
@@ -184,9 +197,12 @@ function buildContents(progress) {
     list.append(el("li", {}, link));
     entries.push({ heading, ids, mark, link });
   }
-  const nav = el("nav", { class: "wb-toc", "aria-label": "Contents" }, el("div", { class: "wb-toc-title" }, "Contents"), list);
+  // A page with no graded widgets has nothing to count, so it gets no marks column.
+  const plain = entries.every((entry) => !entry.ids.length);
+  const nav = el("nav", { class: `wb-toc${plain ? " is-plain" : ""}`, "aria-label": "Contents" }, el("div", { class: "wb-toc-title" }, "Contents"), list);
   main.parentNode.insertBefore(nav, main);
   document.body.classList.add("wb-has-toc");
+  addContentsToggle(nav, list);
 
   progress.subscribe((p) => {
     for (const entry of entries) {
@@ -205,6 +221,26 @@ function buildContents(progress) {
     }
   }, { rootMargin: "-10% 0px -80% 0px" });
   for (const entry of entries) observer.observe(entry.heading);
+}
+
+/** On narrow screens the contents list is a drop-down under a ☰ button in the top bar. */
+function addContentsToggle(nav, list) {
+  const topbar = document.querySelector(".wb-topbar");
+  if (!topbar) return;
+  const toggle = el("button", { type: "button", class: "wb-btn wb-btn-quiet wb-toc-toggle", title: "Contents", "aria-label": "Contents", "aria-expanded": "false" }, "☰");
+  const setOpen = (open) => {
+    document.body.classList.toggle("wb-toc-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  };
+  toggle.addEventListener("click", () => setOpen(!document.body.classList.contains("wb-toc-open")));
+  list.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+  document.addEventListener("click", (e) => { if (!nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+  topbar.querySelector(".wb-theme-toggle").before(toggle);
+  // The drop-down hangs from the bottom edge of the top bar, whose height depends on the viewport.
+  const measure = () => document.documentElement.style.setProperty("--wb-topbar-h", `${topbar.offsetHeight}px`);
+  new ResizeObserver(measure).observe(topbar);
+  measure();
 }
 
 /** Exercise ids between this h2 and the next one. */

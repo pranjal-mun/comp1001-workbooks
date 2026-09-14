@@ -148,7 +148,7 @@ body.wb-has-toc > .wb-toc { grid-area: toc; }
 body.wb-has-toc > main { grid-area: main; width: 100%; }
 
 @media (max-width: 62rem) {
-  body.wb-has-toc { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "toc" "main"; }
+  body.wb-has-toc { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "main"; }
 }
 
 h1, h2, h3, h4 { font-family: var(--font-sans); font-weight: 700; line-height: 1.15; margin: 0; color: var(--ink); letter-spacing: -0.01em; }
@@ -235,6 +235,7 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-title-block h1 { margin: 0.35rem 0 0.4rem; }
 .wb-title-block .wb-subtitle { font-size: 1.35rem; font-style: italic; color: var(--ink-quiet); }
 .wb-title-block .wb-meta { font-family: var(--font-sans); color: var(--ink-quiet); font-size: 0.85rem; margin-top: 0.8rem; }
+.wb-title-block > div { min-width: 0; }
 .wb-title-block img { width: 9rem; max-width: 30vw; flex: none; margin-top: 0.3rem; }
 .wb-outcomes { margin: 0 0 2rem; padding: 1.1rem 1.3rem 1.2rem; background: var(--panel); border-radius: 8px; }
 .wb-outcomes h2 { margin-top: 0; padding-top: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-quiet); }
@@ -306,8 +307,9 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-topbar-title { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
 .wb-topbar-title strong { color: var(--ink); font-size: 0.95rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .wb-topbar-title span { color: var(--ink-quiet); font-size: 0.76rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wb-topbar-title-short { display: none; }
 .wb-spacer { flex: 1; }
-.wb-topbar-status { color: var(--ink-quiet); font-size: 0.78rem; }
+.wb-topbar-status { color: var(--ink-quiet); font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .wb-topbar-status[data-state="running"], .wb-topbar-status[data-state="loading"] { color: var(--warn-ink); }
 .wb-topbar-status[data-state="error"] { color: var(--bad-ink); }
 
@@ -363,8 +365,19 @@ main .wb-table-wrap { overflow-x: auto; }
 .wb-menu-item.is-danger { color: var(--bad-ink); }
 
 @media (max-width: 48rem) {
-  .wb-topbar-title span, .wb-progress-label { display: none; }
-  .wb-progress-track { width: 4rem; }
+  /* Phones: "L02" instead of the full title, no subtitle, and no progress bar (the contents
+     drop-down shows progress per section). */
+  .wb-title-block { gap: 1rem; }
+  .wb-title-block img { max-width: 24vw; }
+  .wb-topbar { gap: 0.4rem; padding: 0.5rem 0.7rem; }
+  .wb-topbar .wb-btn-quiet { padding-inline: 0.5rem; }
+  .wb-topbar-xp { padding-inline: 0.55rem; }
+  .wb-topbar-title span, .wb-topbar-title-full, .wb-progress { display: none; }
+  .wb-topbar-title { flex-shrink: 0; }
+  .wb-topbar-title-short { display: block; }
+  /* The status text takes the spacer's place so "Loading Python…" is not squeezed to a stub. */
+  .wb-spacer { display: none; }
+  .wb-topbar-status { flex: 1; text-align: right; }
 }
 
 /* --------------------------------------------------------------- toc */
@@ -394,11 +407,28 @@ main .wb-table-wrap { overflow-x: auto; }
 }
 .wb-toc-list a:hover { background: var(--panel); color: var(--ink); }
 .wb-toc-list a.is-current { border-left-color: var(--accent-fill); color: var(--accent); font-weight: 600; border-radius: 0 5px 5px 0; }
+.wb-toc.is-plain .wb-toc-mark { display: none; }
 .wb-toc-mark { flex: none; min-width: 2.2em; font-variant-numeric: tabular-nums; color: var(--ink-quiet); font-size: 0.7rem; }
 .wb-toc-mark.is-done { color: var(--good-ink); font-weight: 700; }
+.wb-toc-toggle { display: none; }
 @media (max-width: 62rem) {
-  .wb-toc { position: static; max-height: none; border-bottom: 1px solid var(--rule-soft); padding: 0.8rem 1.5rem; }
-  .wb-toc-list { display: flex; flex-wrap: wrap; gap: 0 0.5rem; }
+  /* Narrow screens: the contents become a drop-down under the ☰ button in the top bar. */
+  .wb-toc-toggle { display: inline-flex; }
+  .wb-toc {
+    display: none;
+    position: fixed;
+    top: var(--wb-topbar-h, 3.5rem);
+    left: 0;
+    right: 0;
+    z-index: 49;
+    max-height: calc(100vh - var(--wb-topbar-h, 3.5rem));
+    padding: 0.8rem 1rem 1rem;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule-soft);
+    box-shadow: var(--shadow);
+  }
+  body.wb-toc-open > .wb-toc { display: block; }
+  .wb-toc-list a { padding: 0.5rem 0.6rem; font-size: 0.9rem; }
 }
 
 /* ----------------------------------------------------------- buttons */
